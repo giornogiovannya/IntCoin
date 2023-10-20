@@ -11,5 +11,5 @@ console.log(user_id);
 
 document.querySelector("button").addEventListener("click", () => {
   console.log(user_id);
-  WebApp.sendData(JSON.stringify({ text: "hello, world" }));
+  WebApp.sendData(JSON.stringify({ text: user_id }));
 });
