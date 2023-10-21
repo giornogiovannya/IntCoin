@@ -22,6 +22,7 @@ dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 sizes_dict = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0}
 current_size = ""
+is_sizable_merch = False
 registry = DialogRegistry(dp)
 
 PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
@@ -32,9 +33,9 @@ class AddGoodsDialog(StatesGroup):
     goods_merch_size = State()
     goods_title = State()
     goods_description = State()
-    goods_cost = State()
     goods_count = State()
     goods_photo = State()
+    goods_cost = State()
     goods_approve = State()
     goods_generate_preview = State()
     merch_set_size = State()
@@ -42,6 +43,8 @@ class AddGoodsDialog(StatesGroup):
 
 async def push_goods_to_db(goods_info):
     global sizes_dict
+    global is_sizable_merch
+    is_sizable_merch = False
     sizes_dict = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0}
     try:
         admin_addnew_goods(goods_info)
@@ -56,9 +59,13 @@ async def on_goods_title(message: types.Message, dialog: Dialog, manager: Dialog
 
 
 async def on_goods_description(message: types.Message, dialog: Dialog, manager: DialogManager):
+    global is_sizable_merch
     user_data = manager.current_context().dialog_data
     user_data["goods_description"] = message.text
-    await dialog.switch_to(AddGoodsDialog.goods_count)
+    if is_sizable_merch:
+        await dialog.switch_to(AddGoodsDialog.goods_photo)
+    else:
+        await dialog.switch_to(AddGoodsDialog.goods_count)
 
 
 async def on_goods_count(message: types.Message, dialog: Dialog, manager: DialogManager):
@@ -120,12 +127,6 @@ async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogM
     await dialog.next()
 
 
-async def on_goods_merch_size(message: types.Message, dialog: Dialog, manager: DialogManager):
-    user_data = manager.current_context().dialog_data
-    user_data["goods_merch_size"] = message.text
-    await dialog.next()
-
-
 async def on_goods_photo(message: types.Message, dialog: Dialog, manager: DialogManager):
     user_data = manager.current_context().dialog_data
     goods_hash = user_data["goods_hash"]
@@ -168,8 +169,10 @@ async def choose_category(callback: CallbackQuery, button: Button, manager: Dial
 
 
 async def choose_size(callback: CallbackQuery, button: Button, manager: DialogManager):
+    global is_sizable_merch
     merch_size_status = button.widget_id
     if merch_size_status == "with_size":
+        is_sizable_merch = True
         keyboard = await update_keyboard()
         await callback.message.answer(text="Выберите размер, после чего измените наличие товара:", reply_markup=keyboard)
         await manager.dialog().switch_to(AddGoodsDialog.goods_title)
