@@ -1,5 +1,5 @@
 const getUser = async () => {
-  const user = (await axios.get(`${host}/users?user_id=${user_id}`));
+  const user = (await axios.get(`${host}/users?user_id=${user_id}`)).data;
   
   document.querySelector(".coins").innerHTML = user.intcoins
 }
