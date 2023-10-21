@@ -27,11 +27,13 @@ for(let car of carousel){
   }
   
   async function start() {
-    const res = (await axios.get(`${host}/goods?filter=type&value=${category}`)).data;
-    outList(res);
+  
   }
   
-  window.addEventListener("load", start);
+  window.addEventListener("load", async function(){
+    const res = (await axios.get(`${host}/goods?filter=type&value=${category}`)).data;
+    outList(res);
+  });
   
   const autoSlide = () => {
       if(car.scrollLeft - (car.scrollWidth - car.clientWidth) > -1 || car.scrollLeft <= 0) return;
