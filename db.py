@@ -29,11 +29,14 @@ def goods_get_avatar(conn, user_id):
 
 
 @connection
+def goods_set_avatar(conn, user_avatar_filename, user_id):
+    conn.execute("UPDATE users SET avatar = ? WHERE user_id = ?", (user_avatar_filename, user_id))
+
+@connection
 def goods_get_intcoins(conn, user_id):
     curs = conn.execute("SELECT intcoins FROM users WHERE user_id=?", (user_id,))
     user_instance = curs.fetchone()
     return user_instance[0]
-
 
 
 @connection
