@@ -1,68 +1,39 @@
-const carousel = document.querySelectorAll(".slider-container");
+let isDown = false;
+let startX;
+let scrollLeft;
+const items = document.querySelectorAll('.items');
 
-for(let car of carousel){
-  let innerSlider = car.querySelector('.inner-slider');
-  
-  let pressed = false;
-  let startX;
-  let x;
+for (let item of items){
+  const end = () => {
+	isDown = false;
+  item.classList.remove('active');
+}
 
-  car.addEventListener('mousedown', (e) => {
-    pressed = true;
-    startX = e.offsetX - innerSlider.offsetLeft;
-    car.style.cursor = "grabbing";
-  })
-  
-  document.addEventListener('touchstart', (e) => {
-    pressed = true;
-    startX = e.offsetX - innerSlider.offsetLeft;
-    car.style.cursor = "grabbing";
-  })
-  
-  car.addEventListener("mouseenter", () => {
-    car.style.cursor = "grab";
-  });
-  
-  car.addEventListener("mouseup", () => {
-    car.style.cursor = "grab";
-    pressed = false;
-  });
-  
-  document.addEventListener("touchend", () => {
-    car.style.cursor = "grab";
-    pressed = false;
-  });
-  
-  car.addEventListener("mousemove", (e) => {
-    if (!pressed) return;
-    
-    e.preventDefault();
-    x = e.offsetX;
-    innerSlider.style.left = `${x - startX}px`;
-    checkBoundary();
+const start = (e) => {
+  isDown = true;
+  item.classList.add('active');
+  startX = e.pageX || e.touches[0].pageX - item.offsetLeft;
+  scrollLeft = item.scrollLeft;
+}
 
-  });
-  
-  document.addEventListener("touchmove", (e) => {
-    if (!pressed) return;
-    
-    e.preventDefault();
-    x = e.offsetX;
-    innerSlider.style.left = `${x - startX}px`;
-    checkBoundary();
+const move = (e) => {
+	if(!isDown) return;
 
-  });
-  
-  const checkBoundary = () => {
-    let outer = car.getBoundingClientRect();
-    let inner = innerSlider.getBoundingClientRect();
+  e.preventDefault();
+  const x = e.pageX || e.touches[0].pageX - sliders.offsetLeft;
+  const dist = (x - startX);
+  item.scrollLeft = scrollLeft - dist;
+}
 
-    if (parseInt(innerSlider.style.left) > 0) {
-        innerSlider.style.left = "0px";
-    }
+(() => {
+	item.addEventListener('mousedown', start);
+	item.addEventListener('touchstart', start);
 
-    if (inner.right < outer.right) {
-        innerSlider.style.left = `-${inner.width - outer.width}px`;
-    }
-  };
+	item.addEventListener('mousemove', move);
+	item.addEventListener('touchmove', move);
+
+	item.addEventListener('mouseleave', end);
+	item.addEventListener('mouseup', end);
+	item.addEventListener('touchend', end);
+})();
 }
