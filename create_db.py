@@ -8,6 +8,7 @@ cursor.execute("""create table if not exists goods (
             name varchar, 
             price integer, 
             description varchar, 
-            type varchar
+            type varchar,
+            img_link varchar
             )""")
 

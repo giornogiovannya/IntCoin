@@ -1,0 +1,8 @@
+input,
+button {
+  border: 1px solid silver;
+  outline: none;
+}
+.btn {
+  padding: 3px 10px;
+}
