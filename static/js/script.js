@@ -31,6 +31,7 @@ async function start() {
   // input.value = "";
   // filter = "";
   // filterValue = "";
+  console.log(car);
   outList(res);
 }
 
