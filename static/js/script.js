@@ -1,6 +1,6 @@
 const carousel = document.querySelectorAll(".carousel");
 
-for(let car of carousel){
+for(var car of carousel){
   const firstBlock = car.querySelectorAll(".goods_item")[0];
 
   const category = car.classList[1]
