@@ -6,6 +6,7 @@ DEFAULT_AVATAR = "default_avatar.jpg"
 def connection(func):
     def wrapper(*args, **kwargs):
         conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
+        #conn = sqlite3.connect('intcoin.db')
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
@@ -22,6 +23,12 @@ def goods_get_nickname(conn, user_id):
 
 
 @connection
+def goods_set_nickname(conn, nickname, user_id):
+    conn.execute("UPDATE users SET nickname = ? WHERE user_id = ?", (nickname, user_id))
+
+
+
+@connection
 def goods_get_avatar(conn, user_id):
     curs = conn.execute("SELECT avatar FROM users WHERE user_id=?", (user_id,))
     user_instance = curs.fetchone()
@@ -31,6 +38,7 @@ def goods_get_avatar(conn, user_id):
 @connection
 def goods_set_avatar(conn, user_avatar_filename, user_id):
     conn.execute("UPDATE users SET avatar = ? WHERE user_id = ?", (user_avatar_filename, user_id))
+
 
 @connection
 def goods_get_intcoins(conn, user_id):
@@ -51,4 +59,4 @@ def goods_new_user_first_time(conn, user_id, default_nickname):
     existing_user = curs.fetchone()
     if existing_user is None:
         curs.execute("INSERT INTO users (user_id, nickname, avatar, intcoins) VALUES (?, ?, ?, ?)",
-                     (user_id, default_nickname, DEFAULT_AVATAR, 0))
+                     (user_id, default_nickname, DEFAULT_AVATAR, 1000))
