@@ -17,25 +17,32 @@ def goods():
     value = request.args.get('value')
     search = request.args.get('search')
 
-    print(filter)
-
     if (search != None):
+        print(123)
         goodsList = db.selectSearch(filter, value, search)
     elif (filter != None and value != None):
+        print(456)
         goodsList = db.selectWithFilter(filter, value)
     else:
+        print(789)
         goodsList = db.selectAll()
 
     goodsJson = []
 
+    print(goodList)
+
     for good in goodsList:
+        print(good)
         g = {}
-        g["id"] = good[0]
-        g["name"] = good[1]
-        g["price"] = good[2]
-        g["description"] = good[3]
-        g["type"] = good[4]
-        g["img_link"] = good[5]
+        g["goods_hash"] = good[1]
+        g["goods_category"] = good[2]
+        g["goods_title"] = good[3]
+        g["goods_description"] = good[4]
+        g["goods_merch_size"] = good[5]
+        g["goods_count"] = good[6]
+        g["goods_cost"] = good[7]
+        g["goods_photo"] = good[8]
+
         goodsJson.append(g)
 
     return goodsJson

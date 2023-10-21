@@ -111,16 +111,13 @@ wrapper:before {
 	width: 50%;
 	height: 130px;
 	color: #222;
-	font-size: 33px;
-	font-weight: bold;
-	line-height: 130px;
-
-
+	font-size: 16px;
+	white-space: wrap;
 }
 
 .item:last-child {
-		margin-right: 20px;
-	}
+	margin-right: 20px;
+}
 
 @media screen and (min-width: 500px) {
 

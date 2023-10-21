@@ -19,6 +19,17 @@
 //   // list.innerHTML = html;
 // }
 //
+// async function start() {
+//   const res = (await axios.get(`${host}/goods`)).data;
+//
+//   input.value = "";
+//   filter = "";
+//   filterValue = "";
+//   outList(res);
+// }
+//
+// window.addEventListener("load", start);
+//
 // document.querySelector(".all").addEventListener("click", start);
 //
 // document.querySelector(".clothes").addEventListener("click", async () => {
@@ -36,17 +47,7 @@
 //   outList(res);
 // });
 //
-// document.querySelector(".search").addEventListener("input", async (e) => {
-//   const value = e.target.value;
-//   let res;
-//   if (filterValue !== "" && filter !== ""){
-//     res = (await axios.get(`${host}/goods?filter=${filter}&value=${filterValue}&search=${value}`)).data;
-//   }
-//   else {
-//     res = (await axios.get(`${host}/goods?search=${value}`)).data;
-//   }
-//   outList(res);
-// });
+
 //
 // // document.querySelector(".menu").addEventListener("click", (e) => {
 // //   const shop = document.querySelector(".menu .disable");
