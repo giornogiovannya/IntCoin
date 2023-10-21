@@ -4,7 +4,16 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Для Safari */
+    -webkit-touch-callout: none; /* Для Safari */
+    -webkit-user-select: none; /* Для Chrome, Safari, Opera */
+    -khtml-user-select: none; /* Для Konqueror */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для Internet Explorer и Edge */
+    user-select: none; /* Общее свойство */
 }
+
+
 
 body{
   max-width: 800px;
