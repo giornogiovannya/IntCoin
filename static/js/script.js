@@ -1,5 +1,7 @@
 const items = document.querySelectorAll('.items');
 
+document.querySelector(".user_id").innerHTML = user_id
+
 let isDown = false;
 let startX;
 let scrollLeft;
@@ -9,10 +11,8 @@ let filter;
 if (document.location.search === "" || document.location.search === "?activate=shop") {
   table = "goods";
   filter = "goods_category"
-  console.log(123);
 }
 else if (document.location.search === "?activate=tasks") {
-  console.log(456);
   table = "tasks";
   filter = "task_category"
 }
@@ -26,7 +26,7 @@ for (let item of items){
   
   document.querySelector(".search").addEventListener("input", async (e) => {
     const value = e.target.value;
-    const res = (await axios.get(`${host}/table?filter=${filter}&value=${category}&search=${value}`)).data;
+    const res = (await axios.get(`${host}/${table}?filter=${filter}&value=${category}&search=${value}`)).data;
     outList(res);
   });
 
