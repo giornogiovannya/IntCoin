@@ -13,7 +13,7 @@ for(let car of carousel){
     car.style.cursor = "grabbing";
   })
   
-  car.addEventListener('touchstart', (e) => {
+  document.addEventListener('touchstart', (e) => {
     pressed = true;
     startX = e.offsetX - innerSlider.offsetLeft;
     car.style.cursor = "grabbing";
@@ -28,7 +28,7 @@ for(let car of carousel){
     pressed = false;
   });
   
-  car.addEventListener("touchend", () => {
+  document.addEventListener("touchend", () => {
     car.style.cursor = "grab";
     pressed = false;
   });
@@ -43,7 +43,7 @@ for(let car of carousel){
 
   });
   
-  car.addEventListener("touchmove", (e) => {
+  document.addEventListener("touchmove", (e) => {
     if (!pressed) return;
     
     e.preventDefault();
