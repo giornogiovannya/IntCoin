@@ -160,7 +160,7 @@ const openModal = async (table, id) => {
       const btn = document.createElement("button");
       const p = document.createElement("p");
       
-      if (res[0].type === "merch"){
+      if (res[0].goods_category === "merch"){
         li.classList = "size";
       btn.classList = btn;
       btn.innerText = size;
