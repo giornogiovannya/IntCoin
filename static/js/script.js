@@ -1,7 +1,21 @@
+const items = document.querySelectorAll('.items');
+
 let isDown = false;
 let startX;
 let scrollLeft;
-const items = document.querySelectorAll('.items');
+let shopActive = true;
+let table;
+let filter;
+if (document.location.search === "" || document.location.search === "?activate=shop") {
+  table = "goods";
+  filter = "goods_category"
+  console.log(123);
+}
+else if (document.location.search === "?activate=tasks") {
+  console.log(456);
+  table = "tasks";
+  filter = "task_category"
+}
 
 for (let item of items){
   const category = item.classList[1];
@@ -12,7 +26,7 @@ for (let item of items){
   
   document.querySelector(".search").addEventListener("input", async (e) => {
     const value = e.target.value;
-    const res = (await axios.get(`${host}/goods?filter=goods_category&value=${category}&search=${value}`)).data;
+    const res = (await axios.get(`${host}/table?filter=${filter}&value=${category}&search=${value}`)).data;
     outList(res);
   });
 
@@ -33,7 +47,6 @@ for (let item of items){
   
   const req = async (item) => {
     const res = (await axios.get(`${host}/goods?filter="goods_category"&value=${category}`)).data;
-    console.log(res);
     outList(res, item);
   }
 
@@ -67,3 +80,6 @@ for (let item of items){
 	  item.addEventListener('touchend', end);
   })();
 }
+
+const shop = document.querySelector(".shop")
+const tasks = document.querySelector(".tasks")

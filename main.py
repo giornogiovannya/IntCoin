@@ -7,7 +7,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', host=host)
+    activate = request.args.get("activate")
+    return render_template('index.html', host=host, activate=activate)
 
 @app.get('/goods')
 def goods():

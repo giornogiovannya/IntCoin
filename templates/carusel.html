@@ -1,8 +1,10 @@
 
 
-{% set categories = ['merch', 'personal_bonus', 'travel'] %}
+{% set goods_categories = ['merch', 'personal_bonus', 'travel'] %}
+{% set task_categories = ['private', 'public'] %}
 
-{% for category in categories %}
+{% if activate == 'shop' or activate == None %}
+  {% for category in goods_categories %}
         <h2>{{ category }}</h2>
         <div class="wrapper">
           <ul class="items {{ category }}">
@@ -17,3 +19,21 @@
 {#            {% endfor %}#}
 {#        </ul>#}
     {% endfor %}
+  {% elif activate == 'tasks' %}
+    {% for category in task_categories %}
+        <h2>{{ category }}</h2>
+        <div class="wrapper">
+          <ul class="items {{ category }}">
+
+          </ul>
+        </div>
+{#        <ul>#}
+{#            {% for entry in entries %}#}
+{#                {% if entry.category == category %}#}
+{#                    <li>{{ entry.name }}</li>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </ul>#}
+    {% endfor %}
+{% endif %}
+
