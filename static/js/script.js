@@ -84,13 +84,11 @@ for (let item of items){
 
 async function openModal(table, id){
   filter = "";
-  console.log(id);
-  if (table === "tasks") filter = "task_";
-  const res = (await axios.get(`${host}/${table}?filter=${filter}id&value=${id}`)).data[0]
+  const res = (await axios.get(`${host}/${table}?filter=id&value=${id}`)).data[0]
   document.querySelector(".window").style.display = "flex";
   console.log(res);
   document.querySelector(".title").innerHTML = res.goods_title || res.task_title;
-  document.querySelector(".description").innerHTML = res.goods_description;
+  document.querySelector(".description").innerHTML = res.goods_description || res.task_description;
 }
 
 document.querySelector(".close").addEventListener("click", () => {
