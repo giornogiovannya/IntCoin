@@ -16,7 +16,7 @@ for (let item of items){
     outList(res);
   });
 
-  function outList(goods) {
+  function outList(goods, item) {
     let html = "";
 
     for (let goodsItem of goods) {
@@ -31,13 +31,13 @@ for (let item of items){
   }
   
   
-  const req = async () => {
+  const req = async (item) => {
     const res = (await axios.get(`${host}/goods?filter="goods_category"&value=${category}`)).data;
     console.log(res);
-    outList(res);
+    outList(res, item);
   }
 
-  req()
+  req(item)
 
   const start = (e) => {
     isDown = true;
