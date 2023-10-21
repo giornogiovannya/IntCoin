@@ -55,6 +55,8 @@ cover/
 
 static/uploads
 
+database.db
+
 .idea
 .DS_Store
 config.py

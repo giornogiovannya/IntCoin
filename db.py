@@ -1,8 +1,8 @@
-import sqlite3
+import sqlite3, config
 
 def connection(func):
     def wrapper(*args, **kwargs):
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(config.db)
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
