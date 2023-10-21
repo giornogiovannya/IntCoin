@@ -64,7 +64,6 @@ def updateGoods(conn, updates, filters):
             query += f" {filter}='{filters[filter]}' and"
 
     query = query.rsplit(' ', 1)[0]
-
     print(query)
 
     res = conn.execute(query)
