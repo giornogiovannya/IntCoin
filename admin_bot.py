@@ -25,7 +25,7 @@ current_size = ""
 registry = DialogRegistry(dp)
 
 PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
-#PHOTO_SERVER_PATH = ""
+
 
 class AddGoodsDialog(StatesGroup):
     goods_category = State()
@@ -58,7 +58,13 @@ async def on_goods_title(message: types.Message, dialog: Dialog, manager: Dialog
 async def on_goods_description(message: types.Message, dialog: Dialog, manager: DialogManager):
     user_data = manager.current_context().dialog_data
     user_data["goods_description"] = message.text
-    await dialog.switch_to(AddGoodsDialog.goods_photo)
+    await dialog.switch_to(AddGoodsDialog.goods_count)
+
+
+async def on_goods_count(message: types.Message, dialog: Dialog, manager: DialogManager):
+    user_data = manager.current_context().dialog_data
+    user_data["goods_count"] = message.text
+    await manager.dialog().switch_to(AddGoodsDialog.goods_photo)
 
 
 async def get_goods_info_from_manager(manager: DialogManager):
@@ -76,7 +82,6 @@ async def get_goods_info_from_manager(manager: DialogManager):
                   "goods_count", "goods_photo", "goods_cost"]
     goods_dict = dict(zip(goods_keys, goods_info))
     return goods_dict, goods_keys
-
 
 
 async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogManager):
@@ -105,9 +110,9 @@ async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogM
             else:
                 goods = goods_dict
     else:
-        goods_dict = await get_goods_info_from_manager(manager)
+        goods_dict, goods_keys = await get_goods_info_from_manager(manager)
         goods = goods_dict
-
+    print("beb")
     formatted_string = f"{goods_dict['goods_title']}\n{goods_dict['goods_description']}\n{goods_dict['goods_cost']}"
     user_data['goods_info'] = goods
     photo = InputFile(PHOTO_SERVER_PATH + goods_dict['goods_photo'])
@@ -234,9 +239,14 @@ dialog = Dialog(
         state=AddGoodsDialog.goods_description,
     ),
     Window(
-        Const("with/without ?"),
-        Button(Const("with"), id="with_size", on_click=choose_size),
-        Button(Const("without"), id="without_size", on_click=choose_size),
+        Const("Количество товара в наличии (числом)"),
+        MessageInput(on_goods_count),
+        state=AddGoodsDialog.goods_count,
+    ),
+    Window(
+        Const("Ништяк имеет размерную сетку ?"),
+        Button(Const("Размерный"), id="with_size", on_click=choose_size),
+        Button(Const("Безразмерный"), id="without_size", on_click=choose_size),
         state=AddGoodsDialog.goods_merch_size,
     ),
     Window(
@@ -246,7 +256,7 @@ dialog = Dialog(
         state=AddGoodsDialog.goods_photo,
     ),
     Window(
-        Const("Количество инткоинов, необходимых для покупки мерча"),
+        Const("Количество инткоинов, необходимых для покупки ништяка"),
         MessageInput(on_goods_cost),
         state=AddGoodsDialog.goods_cost,
     ),
