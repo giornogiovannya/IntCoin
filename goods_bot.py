@@ -46,7 +46,7 @@ async def cmd_status(message: types.Message):
     user_id = message.from_user.id
     user_nickname = goods_get_nickname(user_id)
     user_avatar = goods_get_avatar(user_id)
-    user_avatar_file = InputFile(user_avatar)
+    user_avatar_file = InputFile(PHOTO_SERVER_PATH + user_avatar)
     user_intcoins = goods_get_intcoins(user_id)
     user_last_trades = goods_get_last_trades(user_id)
 
