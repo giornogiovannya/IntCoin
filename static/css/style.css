@@ -1,8 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.menu{
+  display: flex;
+  justify-content: center;
+}
+
+.menu .btn{
+  width: 200px;
+
+}
+
 input,
 button {
-  border: 1px solid silver;
   outline: none;
 }
-.btn {
-  padding: 3px 10px;
+
+.btn.active{
+  background: #35c300;
+  color: #fff;
+}
+
+.filters, .searchBlock{
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn{
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #000;
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.search{
+  width: 50%;
+  height: 35px;
+  font-size: 18px;
+  border-radius: 8px;
+  padding: 0 10px;
+
+}
+
+.wrapper{
+  margin-top: 15px;
+  max-width: 1200px;
+}
+.wrapper .carousel{
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+.carousel.dragging{
+  cursor: grab;
+  scroll-behavior: auto;
+}
+  .carousel.dragging .goods_item{
+  pointer-events: none;
+}
+.carousel .goods_item{
+  display: inline-block;
+  overflow: hidden;
+  height: 340px;
+  object-fit: cover;
+  user-select: none;
+  margin-left: 14px;
+  width: calc(100% / 3);
+}
+.carousel .goods_item:first-child{
+  margin-left: 0px;
+}
+@media screen and (max-width: 900px) {
+  .carousel img{
+    width: calc(100% / 2);
+  }
+}
+@media screen and (max-width: 550px) {
+  .carousel img{
+    width: 100%;
+  }
 }

@@ -1,0 +1,17 @@
+
+
+{% set categories = ['merch', 'personal_bonus', 'travel'] %}
+
+{% for category in categories %}
+        <h2>{{ category }}</h2>
+        <div class="wrapper">
+          <div class="carousel"></div>
+        </div>
+{#        <ul>#}
+{#            {% for entry in entries %}#}
+{#                {% if entry.category == category %}#}
+{#                    <li>{{ entry.name }}</li>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </ul>#}
+    {% endfor %}
