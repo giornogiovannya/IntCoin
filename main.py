@@ -110,8 +110,8 @@ def goods():
         g["goods_description"] = good[4]
         g["goods_merch_size"] = good[5]
         g["goods_count"] = good[6]
-        g["goods_cost"] = good[7]
-        g["goods_photo"] = good[8]
+        g["goods_photo"] = good[7]
+        g["goods_cost"] = good[8]
 
         goodsJson.append(g)
 

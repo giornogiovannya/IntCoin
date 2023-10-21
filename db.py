@@ -130,11 +130,12 @@ def addGoods(conn, goods):
                 goods_hash, 
                 goods_category, 
                 goods_title, 
+                goods_description,
                 goods_merch_size, 
                 goods_count, 
-                goods_description, 
-                goods_cost, 
-                goods_photo) values ("""
+                goods_photo, 
+                goods_cost 
+                ) values ("""
     for g in goods:
         print(g, goods[g])
         if (type(goods[g]) == int):
