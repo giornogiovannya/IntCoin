@@ -18,6 +18,11 @@ body{
   margin: 0 auto;
 }
 
+.user {
+	display: flex;
+	align-items: center;
+}
+
 .avatar{
 	width: 44px;
 	height: 44px;
