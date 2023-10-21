@@ -5,6 +5,53 @@ host = config.host
 
 app = Flask(__name__)
 
+@app.get("/tasks")
+def web_get_tasks():
+    tasks_list = []
+
+    filter = request.args.get('filter')
+    value = request.args.get('value')
+    search = request.args.get('search')
+
+    if (search != None):
+        tasks_list = db.select_tasks_with_search(filter, value, search)
+    elif (filter != None and value != None):
+        tasks_list = db.select_tasks_with_filter(filter, value)
+    else:
+        tasks_list = db.select_all_tasks()
+
+    tasks_json = []
+
+    print(tasks_list)
+
+    for task in tasks_list:
+        t = {}
+        t["task_title"] = task[1]
+        t["task_category"] = task[2]
+        t["task_description"] = task[3]
+        t["task_cost"] = task[4]
+
+        tasks_json.append(t)
+
+    return tasks_json
+
+@app.post("/tasks")
+def web_add_tasks():
+    tasks = request.get_json()
+    return db.add_tasks(tasks)
+
+@app.put("/tasks")
+def web_update_tasks():
+    data = request.get_json()
+    updates = data["updates"]
+    filters = data["filters"]
+    return db.update_tasks(updates, filters)
+
+@app.delete("/tasks")
+def web_delete_tasks():
+    filters = str(request.query_string, 'UTF-8').split("&")
+    return db.delete_tasks(filters)
+
 @app.route('/')
 def index():
     activate = request.args.get("activate")

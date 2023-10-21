@@ -1,6 +1,6 @@
 const items = document.querySelectorAll('.items');
 
-document.querySelector(".user_id").innerHTML = user_id
+// document.querySelector(".user_id").innerHTML = user_id
 
 let isDown = false;
 let startX;
@@ -27,17 +27,18 @@ for (let item of items){
   document.querySelector(".search").addEventListener("input", async (e) => {
     const value = e.target.value;
     const res = (await axios.get(`${host}/${table}?filter=${filter}&value=${category}&search=${value}`)).data;
+    console.log(res);
     outList(res);
   });
 
-  function outList(goods, item) {
+  function outList(data, item) {
     let html = "";
 
-    for (let goodsItem of goods) {
+    for (let dataItem of data) {
       html += `<li class="item">
-                      <span>${goodsItem.goods_title}</span>
-                      <span>${goodsItem.goods_description}</span>
-                      <span>${goodsItem.goods_cost}</span>
+                      <span>${dataItem.goods_title || dataItem.task_title}</span>
+                      <span>${dataItem.goods_description || dataItem.task_description}</span>
+                      <span>${dataItem.goods_cost || dataItem.task_cost}</span>
                     </li>`;
     }
 
@@ -46,7 +47,7 @@ for (let item of items){
   
   
   const req = async (item) => {
-    const res = (await axios.get(`${host}/goods?filter="goods_category"&value=${category}`)).data;
+    const res = (await axios.get(`${host}/${table}?filter=${filter}&value=${category}`)).data;
     outList(res, item);
   }
 

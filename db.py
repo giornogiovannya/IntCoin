@@ -11,6 +11,77 @@ def connection(func):
     return wrapper
 
 @connection
+def select_all_tasks(conn):
+    tasks = conn.execute("select * from tasks")
+    return tasks.fetchall()
+
+@connection
+def select_tasks_with_filter(conn, filter, value):
+    tasks = conn.execute(f"select * from tasks where {filter}='{value}'")
+    return tasks.fetchall()
+
+@connection
+def select_tasks_with_search(conn, filter, filterValue, value):
+    tasks = []
+    if (filter != None and filterValue != None):
+        tasks = conn.execute(f"select * from tasks where name like '%{value}%' and {filter}='{filterValue}'")
+    else:
+        tasks = conn.execute(f"select * from tasks where name like '%{value}%'")
+    return tasks.fetchall()
+
+@connection
+def add_tasks(conn, tasks):
+    query = """insert into tasks (
+                task_title, 
+                task_category, 
+                task_description, 
+                task_cost) values ("""
+    for t in tasks:
+        print(t, tasks[t])
+        if (type(tasks[t]) == int):
+            query += f"{tasks[t]},"
+        else:
+            query += f"'{tasks[t]}',"
+
+    query = query[:-1] + ")"
+
+    return conn.execute(query).fetchall()
+
+@connection
+def update_tasks(conn, updates, filters):
+    query = "update tasks set "
+
+    for update in updates:
+        query += f"{update}='{updates[update]}',"
+
+    query = query[:-1]
+
+    query += " where"
+
+    for filter in filters:
+        if (type(filters[filter]) == int):
+            query += f" {filter}={filters[filter]} and"
+        else:
+            query += f" {filter}='{filters[filter]}' and"
+
+    query = query.rsplit(' ', 1)[0]
+    print(query)
+
+    res = conn.execute(query)
+    return res.fetchall()
+
+@connection
+def delete_tasks(conn, filters):
+    query = "delete from tasks where "
+
+    for filter in filters:
+        f = filter.split("=")
+        query += f"{f[0]}='{f[1]}',"
+
+    query = query[:-1]
+    res = conn.execute(query)
+    return res.fetchall()
+@connection
 def selectAll(conn):
     goods = conn.execute("select * from goods")
     return goods.fetchall()
