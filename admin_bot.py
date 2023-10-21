@@ -101,7 +101,7 @@ async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogM
 
     formatted_string = f"{goods_dict['goods_title']}\n{goods_dict['goods_description']}\n{goods_dict['goods_cost']}"
     user_data['goods_info'] = goods_list
-    photo = InputFile(goods_dict['goods_photo'])
+    photo = InputFile(PHOTO_SERVER_PATH + goods_dict['goods_photo'])
     await message.answer_photo(photo=photo, caption=formatted_string)
     await dialog.next()
 
