@@ -55,6 +55,7 @@ cover/
 
 .idea
 .DS_Store
+config.py
 
 # Translations
 *.mo
