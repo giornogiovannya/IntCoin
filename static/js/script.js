@@ -27,13 +27,13 @@ const move = (e) => {
 
 (() => {
 	item.addEventListener('mousedown', start);
-	item.addEventListener('touchstart', start);
+	document.addEventListener('touchstart', start);
 
 	item.addEventListener('mousemove', move);
-	item.addEventListener('touchmove', move);
+	document.addEventListener('touchmove', move);
 
 	item.addEventListener('mouseleave', end);
 	item.addEventListener('mouseup', end);
-	item.addEventListener('touchend', end);
+	document.addEventListener('touchend', end);
 })();
 }
