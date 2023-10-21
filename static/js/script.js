@@ -159,7 +159,9 @@ const openModal = async (table, id) => {
       const li = document.createElement("li")
       const btn = document.createElement("button");
       const p = document.createElement("p");
-      li.classList = "size";
+      
+      if (res[0].type === "merch"){
+        li.classList = "size";
       btn.classList = btn;
       btn.innerText = size;
       
@@ -175,6 +177,7 @@ const openModal = async (table, id) => {
       li.append(btn);
       
       document.querySelector(".sizes").append(li)
+      }
     }
     
     const btns = document.querySelectorAll(".btn-size")
