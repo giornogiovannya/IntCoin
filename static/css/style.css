@@ -73,9 +73,10 @@ button {
   pointer-events: none;
 }
 .carousel .goods_item{
+  text-align: center;
   display: inline-block;
   overflow: hidden;
-  height: 340px;
+  height: 150px;
   object-fit: cover;
   user-select: none;
   margin-left: 14px;
