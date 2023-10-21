@@ -25,6 +25,7 @@ current_size = ""
 registry = DialogRegistry(dp)
 
 PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
+#PHOTO_SERVER_PATH = ""
 
 class AddGoodsDialog(StatesGroup):
     goods_category = State()
@@ -60,26 +61,32 @@ async def on_goods_description(message: types.Message, dialog: Dialog, manager: 
     await dialog.switch_to(AddGoodsDialog.goods_photo)
 
 
+async def get_goods_info_from_manager(manager: DialogManager):
+    goods_info = [
+        manager.current_context().dialog_data.get("goods_hash", ""),
+        manager.current_context().dialog_data.get("goods_category", ""),
+        manager.current_context().dialog_data.get("goods_title", ""),
+        manager.current_context().dialog_data.get("goods_description", ""),
+        manager.current_context().dialog_data.get("goods_merch_size", ""),
+        manager.current_context().dialog_data.get("goods_count", ""),
+        manager.current_context().dialog_data.get("goods_photo", ""),
+        manager.current_context().dialog_data.get("goods_cost", ""),
+    ]
+    goods_keys = ["goods_hash", "goods_category", "goods_title", "goods_description", "goods_merch_size",
+                  "goods_count", "goods_photo", "goods_cost"]
+    goods_dict = dict(zip(goods_keys, goods_info))
+    return goods_dict, goods_keys
+
+
+
 async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogManager):
     user_data = manager.current_context().dialog_data
     user_data["goods_cost"] = message.text
 
     goods_category = manager.current_context().dialog_data.get("goods_category", "")
     if goods_category == "merch":
-        goods_info = [
-            manager.current_context().dialog_data.get("goods_hash", ""),
-            manager.current_context().dialog_data.get("goods_category", ""),
-            manager.current_context().dialog_data.get("goods_title", ""),
-            manager.current_context().dialog_data.get("goods_description", ""),
-            manager.current_context().dialog_data.get("goods_merch_size", ""),
-            manager.current_context().dialog_data.get("goods_count", ""),
-            manager.current_context().dialog_data.get("goods_photo", ""),
-            manager.current_context().dialog_data.get("goods_cost", ""),
-        ]
-        goods_keys = ["goods_hash", "goods_category", "goods_title", "goods_description", "goods_merch_size",
-                      "goods_count", "goods_photo", "goods_cost"]
+        goods_dict, goods_keys = await get_goods_info_from_manager(manager)
         goods_list = []
-        goods_dict = dict(zip(goods_keys, goods_info))
         for size, count in sizes_dict.items():
             if count > 0:
                 goods_info = [
@@ -94,13 +101,15 @@ async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogM
                 ]
                 goods_dict = dict(zip(goods_keys, goods_info))
                 goods_list.append(goods_dict)
-    elif goods_category == "personal_bonus":
-        pass
-    elif goods_category == "travel":
-        pass
+                goods = goods_list
+            else:
+                goods = goods_dict
+    else:
+        goods_dict = await get_goods_info_from_manager(manager)
+        goods = goods_dict
 
     formatted_string = f"{goods_dict['goods_title']}\n{goods_dict['goods_description']}\n{goods_dict['goods_cost']}"
-    user_data['goods_info'] = goods_list
+    user_data['goods_info'] = goods
     photo = InputFile(PHOTO_SERVER_PATH + goods_dict['goods_photo'])
     await message.answer_photo(photo=photo, caption=formatted_string)
     await dialog.next()
@@ -116,22 +125,18 @@ async def on_goods_photo(message: types.Message, dialog: Dialog, manager: Dialog
     user_data = manager.current_context().dialog_data
     goods_hash = user_data["goods_hash"]
     filename = f"{goods_hash}.jpg"
-    # try:
     file_id = message.photo[-1].file_id
     file = await bot.download_file_by_id(file_id=file_id)
     with open(PHOTO_SERVER_PATH + filename, 'wb') as temp_file:
         temp_file.write(file.getvalue())
     user_data['goods_photo'] = filename
     await dialog.switch_to(AddGoodsDialog.goods_cost)
-    # except Exception as e:
-    #     await dialog.switch_to(AddGoodsDialog.goods_photo_failed)
 
 
 async def success(callback: CallbackQuery, button: Button, manager: DialogManager):
     manager.show_mode = ShowMode.EDIT
     goods_info = manager.current_context().dialog_data.get("goods_info")
     await callback.message.answer(text="Ништяк успешно добавлен!")
-    print(goods_info)
     await push_goods_to_db(goods_info)
     await manager.done()
     await cmd_help(callback.message)
