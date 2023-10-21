@@ -1,6 +1,6 @@
 const carousel = document.querySelectorAll(".carousel");
 
-for(var car of carousel){
+for(let car of carousel){
   const firstBlock = car.querySelectorAll(".goods_item")[0];
 
   const category = car.classList[1]
@@ -27,13 +27,11 @@ for(var car of carousel){
   }
   
   async function start() {
-  
-  }
-  
-  window.addEventListener("load", async function(){
     const res = (await axios.get(`${host}/goods?filter=type&value=${category}`)).data;
     outList(res);
-  });
+  }
+  
+  window.addEventListener("load", start);
   
   const autoSlide = () => {
       if(car.scrollLeft - (car.scrollWidth - car.clientWidth) > -1 || car.scrollLeft <= 0) return;
