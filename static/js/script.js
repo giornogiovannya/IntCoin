@@ -1,6 +1,11 @@
-const items = document.querySelectorAll('.items');
+const getUser = async () => {
+  const user = (await axios.get(`${host}/users?user_id=${user_id}`));
+  console.log(user);
+}
 
-// document.querySelector(".user_id").innerHTML = user_id
+getUser()
+
+const items = document.querySelectorAll('.items');
 
 let isDown = false;
 let startX;

@@ -5,6 +5,26 @@ host = config.host
 
 app = Flask(__name__)
 
+@app.get("/users")
+def web_get_users():
+    user_id = request.args.get("user_id")
+    user = db.select_user(user_id)[0]
+
+    user_json = {}
+
+    user_json["id"] = user[0]
+    user_json["user_id"] = user[1]
+    user_json["nickname"] = user[2]
+    user_json["avatar"] = user[3]
+    user_json["intcoins"] = user[4]
+
+    return user_json;
+
+@app.post("/users")
+def web_add_users():
+    user = request.get_json()
+    print(user)
+    return db.add_user(user)
 @app.get("/tasks")
 def web_get_tasks():
     tasks_list = []

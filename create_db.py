@@ -1,11 +1,12 @@
 import sqlite3
 
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('intcoin.db')
 c = conn.cursor()
 
 c.execute('''
-    CREATE TABLE if not exists users (
+    CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
         nickname TEXT,
         avatar TEXT,
         intcoins INTEGER
@@ -13,7 +14,7 @@ c.execute('''
 ''')
 
 c.execute('''
-    CREATE TABLE if not exists goods (
+    CREATE TABLE goods (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         goods_hash TEXT,
         goods_category TEXT,
@@ -27,7 +28,7 @@ c.execute('''
 ''')
 
 c.execute('''
-    CREATE TABLE if not exists orders (
+    CREATE TABLE orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         goods_id INTEGER,
@@ -37,12 +38,22 @@ c.execute('''
 ''')
 
 c.execute('''
-    CREATE TABLE if not exists tasks (
+    CREATE TABLE tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         task_title TEXT,
         task_category TEXT,
         task_description TEXT,
         task_cost INTEGER
+    )
+''')
+
+c.execute('''
+    CREATE TABLE history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        from_user_id INTEGER,
+        to_user_id INTEGER,
+        cost INTEGER,
+        date DATETIME
     )
 ''')
 

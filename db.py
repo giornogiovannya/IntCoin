@@ -11,6 +11,28 @@ def connection(func):
     return wrapper
 
 @connection
+def select_user(conn, user_id):
+    users = conn.execute(f"select * from users where user_id={user_id}")
+    return users.fetchall()
+
+@connection
+def add_user(conn, user):
+    query = """insert into users (
+                user_id, 
+                nickname, 
+                avatar, 
+                intcoins) values ("""
+    for u in user:
+        if (type(user[u]) == int):
+            query += f"{user[u]},"
+        else:
+            query += f"'{user[u]}',"
+
+    query = query[:-1] + ")"
+
+    return conn.execute(query).fetchall()
+
+@connection
 def select_all_tasks(conn):
     tasks = conn.execute("select * from tasks")
     return tasks.fetchall()
