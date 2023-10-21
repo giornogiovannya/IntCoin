@@ -87,7 +87,10 @@ def selectAll(conn):
 
 @connection
 def selectWithFilter(conn, filter, value):
-    goods = conn.execute(f"select * from goods where {filter}='{value}'")
+    if (type(value) == int):
+        goods = conn.execute(f"select * from goods where {filter}={value}")
+    else:
+        goods = conn.execute(f"select * from goods where {filter}='{value}'")
     return goods.fetchall()
 
 @connection

@@ -26,6 +26,7 @@ def web_get_tasks():
 
     for task in tasks_list:
         t = {}
+        t["task_id"] = task[0]
         t["task_title"] = task[1]
         t["task_category"] = task[2]
         t["task_description"] = task[3]
@@ -82,6 +83,7 @@ def goods():
     for good in goodsList:
         print(good)
         g = {}
+        g["goods_id"] = good[0]
         g["goods_hash"] = good[1]
         g["goods_category"] = good[2]
         g["goods_title"] = good[3]

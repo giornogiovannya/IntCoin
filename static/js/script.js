@@ -35,7 +35,7 @@ for (let item of items){
     let html = "";
 
     for (let dataItem of data) {
-      html += `<li class="item">
+      html += `<li class="item" onclick="openModal('${table}', '${dataItem.task_id || dataItem.goods_id}')" data_id="${dataItem.task_id || dataItem.goods_id}">
                       <span>${dataItem.goods_title || dataItem.task_title}</span>
                       <span>${dataItem.goods_description || dataItem.task_description}</span>
                       <span>${dataItem.goods_cost || dataItem.task_cost}</span>
@@ -82,5 +82,23 @@ for (let item of items){
   })();
 }
 
-const shop = document.querySelector(".shop")
-const tasks = document.querySelector(".tasks")
+async function openModal(table, id){
+  filter = "";
+  console.log(id);
+  if (table === "tasks") filter = "task_";
+  const res = (await axios.get(`${host}/${table}?filter=${filter}id&value=${id}`)).data[0]
+  document.querySelector(".window").style.display = "flex";
+  console.log(res);
+  document.querySelector(".title").innerHTML = res.goods_title || res.task_title;
+  document.querySelector(".description").innerHTML = res.goods_description;
+}
+
+document.querySelector(".close").addEventListener("click", () => {
+  document.querySelector(".window").style.display = "none";
+})
+
+document.querySelector(".window").addEventListener("click", (e) => {
+  if (e.target !== document.querySelector(".modal")){
+    document.querySelector(".window").style.display = "none";
+  }
+})

@@ -55,6 +55,12 @@ button {
   font-size: 16px;
 }
 
+.close{
+	background: #fff;
+	color: #000;
+	cursor: pointer;
+}
+
 .search{
   width: 50%;
   height: 35px;
@@ -135,7 +141,7 @@ wrapper:before {
 	right: 0;
 	left: 0;
 	background: rgba(0, 0, 0, 0.7);
-	display: flex;
+	display: none;
   	align-items: center;
 	justify-content: center;
 }
@@ -144,6 +150,26 @@ wrapper:before {
 	background: #fff;
 	height: 70%;
 	width: 25%;
+	padding: 10px;
+	border: 0;
+	border-radius: 18px;
+	position: relative;
+}
+
+.modal .header{
+	text-align: right;
+}
+
+.modal .footer{
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+}
+
+.modal .footer .btn{
+	width: 100%;
+	padding: 10px;
 }
 
 @media screen and (min-width: 500px) {
