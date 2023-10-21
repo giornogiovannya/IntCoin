@@ -5,7 +5,7 @@ DEFAULT_AVATAR = "default_avatar.jpg"
 
 def connection(func):
     def wrapper(*args, **kwargs):
-        conn = sqlite3.connect('intcoin.db')
+        conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
