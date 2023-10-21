@@ -20,20 +20,20 @@ const move = (e) => {
 	if(!isDown) return;
 
   e.preventDefault();
-  const x = e.pageX || e.touches[0].pageX - sliders.offsetLeft;
+  const x = e.pageX || e.touches[0].pageX - item.offsetLeft;
   const dist = (x - startX);
   item.scrollLeft = scrollLeft - dist;
 }
 
 (() => {
 	item.addEventListener('mousedown', start);
-	document.addEventListener('touchstart', start);
+	item.addEventListener('touchstart', start);
 
 	item.addEventListener('mousemove', move);
-	document.addEventListener('touchmove', move);
+	item.addEventListener('touchmove', move);
 
 	item.addEventListener('mouseleave', end);
 	item.addEventListener('mouseup', end);
-	document.addEventListener('touchend', end);
+	item.addEventListener('touchend', end);
 })();
 }
