@@ -74,11 +74,11 @@ def admin_get_orders(conn):
     formatted_orders = []
     for row in curs.fetchall():
         order_id, nickname, goods_name, goods_category, size, cost, status = row
+        print(nickname)
         status_text = "в процессе" if status == 1 else ("готово" if status == 2 else "")
         size_text = f", Размер: {size}" if size else ""
         formatted_orders.append(
             f"id: {order_id}, Ник сотрудника: {nickname} Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
         )
-    print(nickname)
     print("я был здесь")
     return formatted_orders
