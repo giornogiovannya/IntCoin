@@ -66,16 +66,17 @@ def admin_addnew_unique_goods(conn, goods_info, total_count):
 def admin_get_orders(conn):
     curs = conn.cursor()
     curs.execute('''
-        SELECT orders.id, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
+        SELECT orders.id, users.nickname, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
         FROM orders
         INNER JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
+        INNER JOIN users ON orders.user_id = users.id
     ''')
     formatted_orders = []
     for row in curs.fetchall():
-        order_id, goods_name, goods_category, size, cost, status = row
+        order_id, nickname, goods_name, goods_category, size, cost, status = row
         status_text = "в процессе" if status == 1 else ("готово" if status == 2 else "")
         size_text = f", Размер: {size}" if size else ""
         formatted_orders.append(
-            f"id: {order_id}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
+            f"id: {order_id}, Ник сотрудника: {nickname} Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
         )
     return formatted_orders
