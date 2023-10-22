@@ -3,6 +3,7 @@ const confimation = document.querySelector(".confirmation")
 const modalWindow = document.querySelector(".window");
 const hashDict = {}
 
+
 let cost = 0;
 let hash = "";
 let size = ""
@@ -54,21 +55,24 @@ for (let item of items){
     let html = "";
 
     if (table === "goods") {
+      const hashdict = {}
       for (let dataItem of data) {
-        if (hashDict[dataItem.goods_hash]) {
+        if (hashdict[dataItem.goods_hash]) {
+          hashdict[dataItem.goods_hash].push(dataItem)
           hashDict[dataItem.goods_hash].push(dataItem)
         }
         else {
+          hashdict[dataItem.goods_hash] = [dataItem]
           hashDict[dataItem.goods_hash] = [dataItem]
         }
       }
       
-      for (let hash in hashDict){
+      for (let hash in hashdict){
         let id;
         let title;
         let description;
         let cost = 0;
-        for (let dataItem of hashDict[hash]){
+        for (let dataItem of hashdict[hash]){
           title = dataItem.goods_title
           description = dataItem.goods_description
           id = dataItem.goods_id
@@ -179,7 +183,7 @@ const openModal = async (table, id) => {
     }
     
     document.querySelector(".window").style.display = "flex";
-  
+    document.querySelector(".buy").innerHTML = "Купить"
     document.querySelector(".title").innerHTML = title
     document.querySelector(".description").innerHTML = description
     document.querySelector(".cost").innerHTML = cost
@@ -243,10 +247,22 @@ const openModal = async (table, id) => {
   else if (table === "tasks"){
     const res = (await axios.get(`${host}/${table}?filter=id&value=${id}`)).data[0]
     document.querySelector(".window").style.display = "flex";
+    document.querySelector(".buy").innerHTML = "Начать выполнение"
     document.querySelector(".title").innerHTML = res.task_title;
     document.querySelector(".description").innerHTML = res.task_description;
     document.querySelector(".cost").innerHTML = res.task_cost;
-    
+    document.querySelector(".buy").addEventListener("click", async () => {
+      // buyBtn.style.background = "green";
+      const body = {
+        updates:{
+          task_status: 1
+        },
+        filters:{
+          id
+        }
+      }
+      await axios.put(`${host}/tasks`, body)
+    })
   }
 }
 

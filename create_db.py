@@ -59,7 +59,8 @@ c.execute('''
         task_title TEXT,
         task_category TEXT,
         task_description TEXT,
-        task_cost INTEGER
+        task_cost INTEGER,
+        task_status integer
     )
 ''')
 

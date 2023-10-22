@@ -58,7 +58,8 @@ def add_tasks(conn, tasks):
                 task_title, 
                 task_category, 
                 task_description, 
-                task_cost) values ("""
+                task_cost,
+                task_status) values ("""
     for t in tasks:
         if (type(tasks[t]) == int):
             query += f"{tasks[t]},"
