@@ -79,4 +79,6 @@ def admin_get_orders(conn):
         formatted_orders.append(
             f"id: {order_id}, Ник сотрудника: {nickname} Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
         )
+    print(nickname)
+    print("я был здесь")
     return formatted_orders
