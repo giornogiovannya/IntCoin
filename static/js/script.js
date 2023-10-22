@@ -157,6 +157,7 @@ for (let item of items){
 }
 
 const openModal = async (table, id) => {
+  document.body.style.overflow = "hidden"
   hash = id;
   modal.style.display = "block";
   confimation.style.display = "none"
