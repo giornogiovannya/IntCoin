@@ -90,7 +90,7 @@ for (let item of items){
 
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
-        <img class="p-8 rounded-t-lg" src="/home/aboba/intcoin/web/IntCoin/static/uploads/${hash}.jpg" alt="product image" />
+        <img class="p-8 rounded-t-lg" src="static/uploads/${hash}.jpg" alt="product image" />
     </a>
     <div class="px-5 pb-5">
         <a href="#">
@@ -207,7 +207,7 @@ const openModal = async (table, id) => {
     document.querySelector(".buy").classList.remove("invisible")
     document.querySelector(".start").classList.add("invisible")
     document.querySelector(".title").innerHTML = title
-    document.querySelector(".cardimg").src = "/home/aboba/intcoin/web/IntCoin/static/uploads/" + hash + ".jpg"
+    document.querySelector(".cardimg").src = "static/uploads/" + hash + ".jpg"
     document.querySelector(".description").innerHTML = description
     document.querySelector(".cost").innerHTML = cost
 
