@@ -194,13 +194,6 @@ const openModal = async (table, id) => {
       buyBtn.disabled = true;
       buyBtn.classList.add("disabled")
       buyBtn.innerText = `Вам не хватает ${cost-balance}`
-      buyBtn.innerHTML += `<svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" style="background-color:transparent">
-  <circle cx="13" cy="13" r="10" fill="black" />
-  <text x="9" y="17" font-family="Arial" font-size="12" fill="white">|</text>
-  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 30 30" fill="none" x="12" y="7">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.285 2.55726L1.54509 3.28538 0 4.01351 0 0 1.54509 0.728126 3.285 2.55726Z" fill="#45AE31"/>
-  </svg>
-</svg>`
     }
     
     document.querySelector(".window").style.display = "flex";
