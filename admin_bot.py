@@ -300,7 +300,7 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def cmd_help(message: types.Message):
-    await message.answer("/getrewards - Получить список наград\n/addnewreward - Добавить новую награду\n/gettasks - Получить список заданий\n/addnewtask - Добавить новое задание\n/watchuserslist - Получить список сотрудников и выдать баллы\n/getorders - Получить список заказов сотрудников\n/sendallready - Разослать оповещение всем сотрудникам, чей статус заказа: \"Готово к выдаче\"")
+    await message.answer("/getrewards - Получить список наград\n/addnewreward - Добавить новую награду\n/setstatus\n/watchuserslist - Получить список сотрудников и выдать баллы\n/getorders - Получить список заказов сотрудников\n/sendallready - Разослать оповещение всем сотрудникам, чей статус заказа: \"Готово к выдаче\"")
 
 
 @dp.message_handler(commands=['getorders'])
@@ -350,17 +350,16 @@ async def cmd_send_all(message: types.Message):
 
 @dp.callback_query_handler(text_startswith="add")
 async def hdr_add_intcoins(call: types.CallbackQuery):
-    user_number = int(call.data.split(":")[1]) - 1
+    user_number = int(call.data.split(":")[1])
     user_info = admin_get_user_info(user_number)
     admin_coins_add(user_info[1], 500)
 
 
 @dp.callback_query_handler(text_startswith="remove")
 async def hdr_remove_intcoins(call: types.CallbackQuery):
-    user_number = int(call.data.split(":")[1]) - 1
+    user_number = int(call.data.split(":")[1])
     user_info = admin_get_user_info(user_number)
     admin_coins_remove(user_info[1], 5)
-
 
 @dp.callback_query_handler(text_startswith="previous_user")
 async def hdr_previous_user(call: types.CallbackQuery):
