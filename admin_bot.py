@@ -14,7 +14,7 @@ from aiogram_dialog.widgets.kbd import Button, Cancel, SwitchTo, Row
 from aiogram_dialog.widgets.text import Const
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog import Window, Dialog, DialogRegistry, DialogManager, StartMode, ShowMode
-from db import admin_addnew_goods
+from db import admin_addnew_goods, admin_addnew_unique_goods
 
 bot = Bot(token=admin_bot_token)
 storage = MemoryStorage()
@@ -26,6 +26,7 @@ is_sizable_merch = False
 registry = DialogRegistry(dp)
 
 PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
+#PHOTO_SERVER_PATH = ""
 
 
 class AddGoodsDialog(StatesGroup):
@@ -45,9 +46,11 @@ async def push_goods_to_db(goods_info):
     global sizes_dict
     global is_sizable_merch
     is_sizable_merch = False
+    total_count = sum(sizes_dict.values())
     sizes_dict = {"S": 0, "M": 0, "L": 0, "XL": 0, "XXL": 0}
     try:
         admin_addnew_goods(goods_info)
+        admin_addnew_unique_goods(goods_info, total_count)
     except sqlite3.Error as e:
         print(e)
 
@@ -99,27 +102,27 @@ async def on_goods_cost(message: types.Message, dialog: Dialog, manager: DialogM
     if goods_category == "merch":
         goods_dict, goods_keys = await get_goods_info_from_manager(manager)
         goods_list = []
-        for size, count in sizes_dict.items():
-            if count > 0:
-                goods_info = [
-                    manager.current_context().dialog_data.get("goods_hash", ""),
-                    manager.current_context().dialog_data.get("goods_category", ""),
-                    manager.current_context().dialog_data.get("goods_title", ""),
-                    manager.current_context().dialog_data.get("goods_description", ""),
-                    size,
-                    count,
-                    manager.current_context().dialog_data.get("goods_photo", ""),
-                    manager.current_context().dialog_data.get("goods_cost", ""),
-                ]
-                goods_dict = dict(zip(goods_keys, goods_info))
-                goods_list.append(goods_dict)
-                goods = goods_list
-            else:
-                goods = goods_dict
+        if any(count > 0 for size, count in sizes_dict.items()):
+            for size, count in sizes_dict.items():
+                if count > 0:
+                    goods_info = [
+                        manager.current_context().dialog_data.get("goods_hash", ""),
+                        manager.current_context().dialog_data.get("goods_category", ""),
+                        manager.current_context().dialog_data.get("goods_title", ""),
+                        manager.current_context().dialog_data.get("goods_description", ""),
+                        size,
+                        count,
+                        manager.current_context().dialog_data.get("goods_photo", ""),
+                        manager.current_context().dialog_data.get("goods_cost", ""),
+                    ]
+                    goods_dict = dict(zip(goods_keys, goods_info))
+                    goods_list.append(goods_dict)
+                    goods = goods_list
+        else:
+            goods = goods_dict
     else:
         goods_dict, goods_keys = await get_goods_info_from_manager(manager)
         goods = goods_dict
-    print("beb")
     formatted_string = f"{goods_dict['goods_title']}\n{goods_dict['goods_description']}\n{goods_dict['goods_cost']}"
     user_data['goods_info'] = goods
     photo = InputFile(PHOTO_SERVER_PATH + goods_dict['goods_photo'])
