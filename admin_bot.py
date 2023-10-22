@@ -16,6 +16,7 @@ from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog import Window, Dialog, DialogRegistry, DialogManager, StartMode, ShowMode
 from db import admin_addnew_goods, admin_addnew_unique_goods, admin_get_orders, admin_get_users_count, \
     admin_get_user_info
+from PIL import Image, ImageDraw
 
 bot = Bot(token=admin_bot_token)
 storage = MemoryStorage()
@@ -26,8 +27,7 @@ current_size = ""
 is_sizable_merch = False
 registry = DialogRegistry(dp)
 
-#PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
-PHOTO_SERVER_PATH = ""
+PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
 
 
 class AddGoodsDialog(StatesGroup):
@@ -346,6 +346,12 @@ async def cmd_send_all(message: types.Message):
         await message.answer('Рассылка окончена')
     else:
         await message.answer('Ошибка авторизации')
+
+
+@dp.callback_query_handler(text_startswith="add")
+async def hdr_add_intcoins(call: types.CallbackQuery):
+    print(call)
+    print(call)
 
 
 @dp.callback_query_handler(text_startswith="previous_user")
