@@ -98,7 +98,7 @@ for (let item of items){
         </a>
 
         <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">${cost}</span>
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">- ${cost}</span>
         </div>
     </div>
 </div>
@@ -110,9 +110,22 @@ for (let item of items){
     else if (table === "tasks") {
       for (let dataItem of data) {
         html += `<li class="item" onclick="openModal('${table}', '${dataItem.task_id}')" data_id="${dataItem.task_id}">
-                      <span>${dataItem.task_title}</span>
-                      <span>${dataItem.task_description}</span>
-                      <span>${dataItem.task_cost}</span>
+                      
+<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="p-8 rounded-t-lg" src="static/uploads/${hash}.jpg" style="width: 100%; height: 100%" alt="product image" />
+    </a>
+    <div class="px-5 pb-5">
+        <a href="#">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">${dataItem.task_title}</h5>
+        </a>
+
+        <div class="flex items-center justify-between">
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">+ ${dataItem.task_cost}</span>
+        </div>
+    </div>
+</div>
+<br>
                     </li>`;
       }
       item.innerHTML = html
