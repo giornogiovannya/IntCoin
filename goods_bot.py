@@ -2,12 +2,15 @@ import asyncio
 import json
 import logging
 import sys
+from aiohttp import web
 from aiogram import Bot, Dispatcher, types
+
+import config
 from config import goods_bot_token
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputFile
-from db import goods_get_nickname, goods_get_avatar, goods_get_intcoins, goods_get_last_trades, goods_new_user_first_time, goods_set_avatar, goods_set_nickname
+from db import goods_get_nickname, goods_get_avatar, goods_get_intcoins, goods_get_last_trades, goods_new_user_first_time, goods_set_avatar, goods_set_nickname, admin_get_orders
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from PIL import Image, ImageDraw
 
@@ -17,8 +20,8 @@ bot = Bot(token=goods_bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
-#PHOTO_SERVER_PATH = ""
+#PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
+PHOTO_SERVER_PATH = ""
 
 
 class SettersStates(StatesGroup):
@@ -29,7 +32,8 @@ class SettersStates(StatesGroup):
 @dp.message_handler(commands=["start"])
 async def cmd_start(message: types.Message):
     goods_new_user_first_time(message.from_user.id, message.from_user.first_name)
-    await message.answer("Привет! Для просмотра доступных комманд нажми /help или сразу переходи")
+    await message.answer("Привет! Для просмотра доступных комманд нажми /help")
+    await cmd_help(message)
 
 
 @dp.message_handler(commands=["web"])
@@ -53,6 +57,28 @@ async def cmd_status(message: types.Message):
 
     caption = f"{user_nickname}\n\nБаланс Инткоинов: {user_intcoins}\n\n{user_last_trades}"
     await message.answer_photo(photo=user_avatar_file, caption=caption)
+    await cmd_help(message)
+
+
+
+@dp.message_handler(commands=['sendallready'])
+async def cmd_send_all(message: types.Message):
+    admin_id = config.admin_user_id
+    if message.chat.id == admin_id:
+        users = []
+        for i in users:
+            await bot.send_message(chat_id=i, text="Текст рассылки")
+        orders = admin_get_orders()
+        for order in orders:
+            if 'Статус: Готово' in order:
+                goods = order.split(',')[3].split(':')[1].strip()
+                user_id = order.split(',')[1].split(':')[1].strip()
+                order_id = order.split(',')[0].split(':')[1].strip()
+                text = f"Ваш заказ {order_id}: {goods} готов к выдаче, пожалуйста, поднимитесь в кабинет."
+                await bot.send_message(chat_id=user_id, text=text)
+
+        await message.answer('Рассылка окончена')
+
 
 
 @dp.message_handler(commands=["setavatar"])

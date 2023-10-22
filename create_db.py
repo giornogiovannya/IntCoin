@@ -28,10 +28,26 @@ c.execute('''
 ''')
 
 c.execute('''
+    CREATE TABLE unique_goods (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        goods_hash TEXT,
+        goods_category TEXT,
+        goods_title TEXT,
+        goods_description TEXT,
+        goods_merch_size TEXT,
+        goods_count INTEGER,
+        goods_photo TEXT,
+        goods_cost INTEGER
+    )
+''')
+
+c.execute('''
     CREATE TABLE orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         goods_id INTEGER,
+        size TEXT,
+        cost INTEGER,
         date DATETIME,
         status INTEGER
     )
@@ -43,7 +59,8 @@ c.execute('''
         task_title TEXT,
         task_category TEXT,
         task_description TEXT,
-        task_cost INTEGER
+        task_cost INTEGER,
+        task_status integer
     )
 ''')
 

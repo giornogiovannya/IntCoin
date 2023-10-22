@@ -5,7 +5,8 @@ DEFAULT_AVATAR = "default_avatar.jpg"
 
 def connection(func):
     def wrapper(*args, **kwargs):
-        conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
+        #conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
+        conn = sqlite3.connect('intcoin.db')
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
@@ -49,6 +50,29 @@ def goods_get_intcoins(conn, user_id):
 @connection
 def goods_get_last_trades(conn, user_id):
     return "Список последних обменов коинами пуст"
+
+
+@connection
+def admin_get_orders(conn):
+    curs = conn.cursor()
+    curs.execute('''
+        SELECT orders.id, users.user_id, users.nickname, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
+        FROM orders
+        LEFT JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
+        LEFT JOIN users ON orders.user_id = users.user_id
+    ''')
+    formatted_orders = []
+    for row in curs.fetchall():
+        order_id, user_id, nickname, goods_name, goods_category, size, cost, status = row
+        status_text = "В процессе" if status == 1 else ("Готово" if status == 2 else "")
+        size_text = f", Размер: {size}" if size else ""
+        formatted_orders.append(
+            f"order_id: {order_id}, user_id: {user_id}, Ник сотрудника: {nickname}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
+        )
+    formatted_orders = sorted(formatted_orders, key=lambda x: x.split()[-1])
+    return formatted_orders
+
+
 
 
 @connection
