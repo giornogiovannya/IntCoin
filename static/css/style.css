@@ -172,10 +172,10 @@ wrapper:before {
 	height: 80%;
 	width: 25%;
 	padding: 0px;
+	position: fixed;
 	overflow: hidden;
 	border: 0;
 	border-radius: 18px;
-	position: relative;
 }
 
 .modal .header{
