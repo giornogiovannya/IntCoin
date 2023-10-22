@@ -47,6 +47,12 @@ def goods_get_intcoins(conn, user_id):
 
 
 @connection
+def goods_transfer_coins(conn, from_id, to_id, coins_count):
+    conn.execute("UPDATE users SET intcoins = intcoins + ? WHERE user_id = ?", (coins_count, to_id,))
+    conn.execute("UPDATE users SET intcoins = intcoins - ? WHERE user_id = ?", (coins_count, from_id,))
+
+
+@connection
 def goods_get_last_trades(conn, user_id):
     return "Список последних обменов коинами пуст"
 

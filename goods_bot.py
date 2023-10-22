@@ -10,7 +10,7 @@ from config import goods_bot_token
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputFile
-from db import goods_get_nickname, goods_get_avatar, goods_get_intcoins, goods_get_last_trades, goods_new_user_first_time, goods_set_avatar, goods_set_nickname, admin_get_orders
+from db import goods_get_nickname, goods_get_avatar, goods_get_intcoins, goods_get_last_trades, goods_new_user_first_time, goods_set_avatar, goods_set_nickname, admin_get_orders, goods_transfer_coins
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from PIL import Image, ImageDraw
 
@@ -26,6 +26,7 @@ PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
 class SettersStates(StatesGroup):
     NICKNAME = State()
     AVATAR = State()
+    TRANSFER = State()
 
 
 @dp.message_handler(commands=["start"])
@@ -84,6 +85,21 @@ async def cmd_send_all(message: types.Message):
 async def cmd_setavatar(message: types.Message):
     await message.answer(text="Для смены аватарки, отправьте новое фото прямо сюда")
     await SettersStates.AVATAR.set()
+
+
+@dp.message_handler(commands=["transfer"])
+async def cmd_transfer(message: types.Message):
+    await message.answer(text="Для отправки своих инткоинов, укажите их количество и никнейм получателя через пробел (Пример: 50 aboba)")
+    await SettersStates.TRANSFER.set()
+
+
+@dp.message_handler(state=SettersStates.TRANSFER)
+async def tranfer(message: types.Message):
+    to_id, coins_count = message.split(' ')
+    from_id = message.from_user.id
+    goods_transfer_coins(from_id, to_id, coins_count)
+    await message.answer("Коины успешно отправлены!")
+    await cmd_help(message)
 
 
 @dp.message_handler(state=SettersStates.AVATAR, content_types=[types.ContentType.PHOTO])
