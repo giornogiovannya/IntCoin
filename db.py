@@ -47,8 +47,8 @@ def goods_get_intcoins(conn, user_id):
 
 
 @connection
-def goods_transfer_coins(conn, from_id, to_id, coins_count):
-    conn.execute("UPDATE users SET intcoins = intcoins + ? WHERE user_id = ?", (coins_count, to_id,))
+def goods_transfer_coins(conn, from_id, nickname, coins_count):
+    conn.execute("UPDATE users SET intcoins = intcoins + ? WHERE nickname = ?", (coins_count, nickname,))
     conn.execute("UPDATE users SET intcoins = intcoins - ? WHERE user_id = ?", (coins_count, from_id,))
 
 

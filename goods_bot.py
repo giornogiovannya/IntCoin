@@ -95,9 +95,9 @@ async def cmd_transfer(message: types.Message):
 
 @dp.message_handler(state=SettersStates.TRANSFER)
 async def tranfer(message: types.Message):
-    to_id, coins_count = message.split(' ')
+    coins_count, nickname = message.text.split(' ')
     from_id = message.from_user.id
-    goods_transfer_coins(from_id, to_id, coins_count)
+    goods_transfer_coins(from_id, nickname, coins_count)
     await message.answer("Коины успешно отправлены!")
     await cmd_help(message)
 
