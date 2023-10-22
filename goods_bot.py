@@ -20,8 +20,7 @@ bot = Bot(token=goods_bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-#PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
-PHOTO_SERVER_PATH = ""
+PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
 
 
 class SettersStates(StatesGroup):
