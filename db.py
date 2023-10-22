@@ -187,5 +187,5 @@ def add_order(conn, data):
     conn.execute(f"UPDATE goods SET goods_count = goods_count - 1 WHERE goods_hash = ? AND goods_merch_size = ?", (data['goods_hash'], data["size"],) )
     current_datetime = datetime.now()
     conn.execute("UPDATE users SET intcoins = intcoins - ? WHERE user_id = ?", (data['cost'], data['user_id'],))
-    res = conn.execute("INSERT INTO orders (user_id, goods_id, size, cost, date, status) VALUES (?, ?, ?, ?, ?, ?)", (data['user_id'],data['goods_hash'],data['size'],data['cost'],current_datetime,1,))
+    res = conn.execute("INSERT INTO orders (user_id, goods_id, size, cost, date, status) VALUES (?, ?, ?, ?, ?, ?)", (data['user_id'],data['goods_hash'],data['size'],data['cost'],current_datetime,2,))
     return res
