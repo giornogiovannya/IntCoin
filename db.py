@@ -95,3 +95,12 @@ def admin_get_user_info(conn, user_number):
     curs_to_arr = list(curs)[user_number-1]
     return curs_to_arr
 
+
+@connection
+def admin_coins_add(conn, user_number, coins_count):
+    conn.execute("UPDATE users SET intcoins = intcoins + ? FROM users WHERE user_id = ?", (coins_count, user_number,))
+
+@connection
+def admin_coins_remove(conn, user_number, coins_count):
+    conn.execute("UPDATE users SET intcoins = intcoins - ? FROM users WHERE user_id = ?",
+                 (coins_count, user_number,))

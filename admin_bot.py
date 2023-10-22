@@ -15,7 +15,7 @@ from aiogram_dialog.widgets.text import Const
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog import Window, Dialog, DialogRegistry, DialogManager, StartMode, ShowMode
 from db import admin_addnew_goods, admin_addnew_unique_goods, admin_get_orders, admin_get_users_count, \
-    admin_get_user_info
+    admin_get_user_info, admin_coins_add, admin_coins_remove
 from PIL import Image, ImageDraw
 
 bot = Bot(token=admin_bot_token)
@@ -350,8 +350,16 @@ async def cmd_send_all(message: types.Message):
 
 @dp.callback_query_handler(text_startswith="add")
 async def hdr_add_intcoins(call: types.CallbackQuery):
-    print(call)
-    print(call)
+    user_number = int(call.data.split(":")[1]) - 1
+    user_info = admin_get_user_info(user_number)
+    admin_coins_add(user_info[1], 500)
+
+
+@dp.callback_query_handler(text_startswith="remove")
+async def hdr_remove_intcoins(call: types.CallbackQuery):
+    user_number = int(call.data.split(":")[1]) - 1
+    user_info = admin_get_user_info(user_number)
+    admin_coins_remove(user_info[1], 5)
 
 
 @dp.callback_query_handler(text_startswith="previous_user")
@@ -376,8 +384,8 @@ async def show_current_user(message, user_id, call_id, user_number):
         types.InlineKeyboardButton("Назад", callback_data=f"previous_user:{user_number}"),
         types.InlineKeyboardButton("Вперёд", callback_data=f"next_user:{user_number}")
     )
-    markup.row(types.InlineKeyboardButton("Начислить", callback_data=f"add"))
-    markup.row(types.InlineKeyboardButton("Убавить", callback_data=f"remove"))
+    markup.row(types.InlineKeyboardButton("Начислить", callback_data=f"add:{user_number}"))
+    markup.row(types.InlineKeyboardButton("Убавить", callback_data=f"remove:{user_number}"))
     if not user_number > users_count:
         inff = admin_get_user_info(user_number)
         user_nickname, user_avatar, user_intcoins = inff[2], inff[3], inff[4]
