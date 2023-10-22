@@ -133,7 +133,7 @@ async def gen_avatar(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def cmd_help(message: types.Message):
-    await message.answer("/status - Получить краткую информацию об аккаунте\n/setavatar - Установить аватарку\n/setnickname - Установить никнейм\n/transfer\n/web - Открыть Магазин Ништяков, если кнопка меню недоступна\n")
+    await message.answer("/status - Получить краткую информацию об аккаунте\n/setavatar - Установить аватарку\n/setnickname - Установить никнейм\n/transfer - Отправить другому пользователю коины\n/web - Открыть Магазин Ништяков, если кнопка меню недоступна\n")
 
 
 @dp.message_handler(commands=['setnickname'])
