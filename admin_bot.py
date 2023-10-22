@@ -305,7 +305,8 @@ async def cmd_help(message: types.Message):
 @dp.message_handler(commands=['getorders'])
 async def cmd_get_orders(message: types.Message):
     orders_arr = admin_get_orders()
-    print(orders_arr)
+    orders_list_str = "\n".join(orders_arr)
+    await message.answer(orders_list_str)
 
 
 @dp.message_handler(commands=['sendallready'])
