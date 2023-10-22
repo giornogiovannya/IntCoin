@@ -183,7 +183,8 @@ const openModal = async (table, id) => {
     }
     
     document.querySelector(".window").style.display = "flex";
-    document.querySelector(".buy").innerHTML = "Купить"
+    document.querySelector(".buy").classList.remove("invisible")
+    document.querySelector(".start").classList.add("invisible")
     document.querySelector(".title").innerHTML = title
     document.querySelector(".description").innerHTML = description
     document.querySelector(".cost").innerHTML = cost
@@ -244,18 +245,42 @@ const openModal = async (table, id) => {
       document.querySelector(".body .info").innerText = `Вы уверены что хотите купить ${title} за ${cost}?`
     })
   }
-  else if (table === "tasks"){
+  else if (table === "tasks") {
     const res = (await axios.get(`${host}/${table}?filter=id&value=${id}`)).data[0]
     document.querySelector(".window").style.display = "flex";
     document.querySelector(".buy").innerHTML = "Начать выполнение"
     document.querySelector(".title").innerHTML = res.task_title;
     document.querySelector(".description").innerHTML = res.task_description;
     document.querySelector(".cost").innerHTML = res.task_cost;
-    document.querySelector(".buy").addEventListener("click", async () => {
-      // buyBtn.style.background = "green";
+    document.querySelector(".buy").classList.add("invisible")
+    document.querySelector(".start").classList.remove("invisible")
+    
+    if (res.task_status === 1){
+      document.querySelector(".start").style.background = "green"
+      document.querySelector(".start").innerText = "Звершить выполнение задания"
+    }
+    else if (res.task_status === 2){
+      document.querySelector(".start").style.background = "rgba(0, 0, 0, 0.5)"
+      document.querySelector(".start").disabled = true;
+      document.querySelector(".start").innerText = "Ожидайте ответа администратора"
+    }
+    else {
+      document.querySelector(".start").style.background = "#000"
+    }
+    document.querySelector(".start").addEventListener("click", async () => {
+      if (res.task_status + 1 === 1){
+        document.querySelector(".start").style.background = "green"
+      document.querySelector(".start").innerText = "Звершить выполнение задания"
+      }
+      else if (res.task_status + 1 === 2){
+        document.querySelector(".start").style.background = "rgba(0, 0, 0, 0.5)"
+        document.querySelector(".start").disabled = true;
+        document.querySelector(".start").innerText = "Ожидайте ответа администратора"
+      }
+      
       const body = {
         updates:{
-          task_status: 1
+          task_status: res.task_status + 1
         },
         filters:{
           id

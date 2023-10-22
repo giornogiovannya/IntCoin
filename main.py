@@ -49,6 +49,7 @@ def web_get_tasks():
         t["task_category"] = task[2]
         t["task_description"] = task[3]
         t["task_cost"] = task[4]
+        t["task_status"] = task[5]
 
         tasks_json.append(t)
 
@@ -64,7 +65,7 @@ def web_update_tasks():
     data = request.get_json()
     updates = data["updates"]
     filters = data["filters"]
-    return db.update_tasks(updates, filters)
+    return jsonify(success=True)
 
 @app.delete("/tasks")
 def web_delete_tasks():

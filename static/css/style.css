@@ -213,6 +213,10 @@ wrapper:before {
 	opacity: 0;
 }
 
+.invisible{
+	display: none;
+}
+
 @media screen and (min-width: 500px) {
 
 	.item {
