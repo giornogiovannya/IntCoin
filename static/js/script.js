@@ -162,6 +162,7 @@ const openModal = async (table, id) => {
       description = dataItem.goods_description
       id = dataItem.goods_id
       cost = dataItem.goods_cost
+      count = dataItem.goods_count
     }
     
     if (balance - cost <= 0) {
@@ -206,6 +207,9 @@ const openModal = async (table, id) => {
         li.append(btn);
         
         document.querySelector(".sizes").append(li)
+      }
+      else {
+        document.querySelector(".count").innerHTML = count
       }
     }
     
