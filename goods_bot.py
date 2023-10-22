@@ -9,6 +9,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputFile
 from db import goods_get_nickname, goods_get_avatar, goods_get_intcoins, goods_get_last_trades, goods_new_user_first_time, goods_set_avatar, goods_set_nickname
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from PIL import Image, ImageDraw
 
 
 logging.basicConfig(level=logging.INFO)
@@ -69,7 +70,21 @@ async def gen_avatar(message: types.Message):
     with open(PHOTO_SERVER_PATH + user_avatar_filename, 'wb') as temp_file:
         temp_file.write(file.getvalue())
 
-    # обработка фото (ВСТАВКА В РАМКУ)
+    background = Image.new('RGB', (1000, 1000), 'black')
+    image = Image.open(PHOTO_SERVER_PATH + user_avatar_filename)
+    mask = Image.new('L', (600, 600), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, 600, 600), fill=255)
+    image = image.resize((600, 600))
+    image.putalpha(mask)
+    offset = (200, 200)
+    background.paste(image, offset, image)
+    background.save(f'{user_id}_temp.jpg')
+    background = Image.open(f'{user_id}_temp.jpg')
+    frame = Image.open('intensa.png')
+    background.paste(frame, (0, 0), frame)
+    background.save(PHOTO_SERVER_PATH + user_avatar_filename)
+
     goods_set_avatar(user_avatar_filename, user_id)
     await message.answer(text="Фото успешно обновлено!")
     await dp.current_state(user=message.from_user.id).finish()

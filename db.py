@@ -6,7 +6,6 @@ DEFAULT_AVATAR = "default_avatar.jpg"
 def connection(func):
     def wrapper(*args, **kwargs):
         conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
-        #conn = sqlite3.connect('intcoin.db')
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
@@ -49,7 +48,7 @@ def goods_get_intcoins(conn, user_id):
 
 @connection
 def goods_get_last_trades(conn, user_id):
-    return "empty_now"
+    return "Список последних обменов коинами пуст"
 
 
 @connection
