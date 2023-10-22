@@ -3,8 +3,8 @@ import sqlite3
 
 def connection(func):
     def wrapper(*args, **kwargs):
-        conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
-        #conn = sqlite3.connect('intcoin.db')
+        #conn = sqlite3.connect('/home/aboba/intcoin/db_dir/intcoin.db')
+        conn = sqlite3.connect('intcoin.db')
         result = func(conn, *args, **kwargs)
         conn.commit()
         conn.close()
@@ -66,19 +66,32 @@ def admin_addnew_unique_goods(conn, goods_info, total_count):
 def admin_get_orders(conn):
     curs = conn.cursor()
     curs.execute('''
-        SELECT orders.id, users.nickname, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
+        SELECT orders.id, users.user_id, users.nickname, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
         FROM orders
-        INNER JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
-        INNER JOIN users ON orders.user_id = users.id
+        LEFT JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
+        LEFT JOIN users ON orders.user_id = users.user_id
     ''')
     formatted_orders = []
     for row in curs.fetchall():
-        order_id, nickname, goods_name, goods_category, size, cost, status = row
-        print(nickname)
-        status_text = "в процессе" if status == 1 else ("готово" if status == 2 else "")
+        order_id, user_id, nickname, goods_name, goods_category, size, cost, status = row
+        status_text = "В процессе" if status == 1 else ("Готово" if status == 2 else "")
         size_text = f", Размер: {size}" if size else ""
         formatted_orders.append(
-            f"id: {order_id}, Ник сотрудника: {nickname} Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
+            f"order_id: {order_id}, user_id: {user_id}, Ник сотрудника: {nickname}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
         )
-    print("я был здесь")
+    formatted_orders = sorted(formatted_orders, key=lambda x: x.split()[-1])
     return formatted_orders
+
+
+@connection
+def admin_get_users_count(conn):
+    curs = conn.execute("SELECT COUNT(*) FROM users")
+    return curs.fetchall()[0][0]
+
+
+@connection
+def admin_get_user_info(conn, user_number):
+    curs = conn.execute("SELECT * FROM users")
+    curs_to_arr = list(curs)[user_number-1]
+    return curs_to_arr
+

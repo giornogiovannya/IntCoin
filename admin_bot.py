@@ -4,7 +4,7 @@ import hashlib
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher.filters import Text
-from aiogram.types import CallbackQuery, ContentType
+from aiogram.types import CallbackQuery, ContentType, InputMediaPhoto
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import config
 from config import admin_bot_token
@@ -14,7 +14,8 @@ from aiogram_dialog.widgets.kbd import Button, Cancel, SwitchTo, Row
 from aiogram_dialog.widgets.text import Const
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog import Window, Dialog, DialogRegistry, DialogManager, StartMode, ShowMode
-from db import admin_addnew_goods, admin_addnew_unique_goods, admin_get_orders
+from db import admin_addnew_goods, admin_addnew_unique_goods, admin_get_orders, admin_get_users_count, \
+    admin_get_user_info
 
 bot = Bot(token=admin_bot_token)
 storage = MemoryStorage()
@@ -25,8 +26,8 @@ current_size = ""
 is_sizable_merch = False
 registry = DialogRegistry(dp)
 
-PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
-#PHOTO_SERVER_PATH = ""
+#PHOTO_SERVER_PATH = "/home/aboba/intcoin/web/IntCoin/static/uploads/"
+PHOTO_SERVER_PATH = ""
 
 
 class AddGoodsDialog(StatesGroup):
@@ -305,8 +306,24 @@ async def cmd_help(message: types.Message):
 @dp.message_handler(commands=['getorders'])
 async def cmd_get_orders(message: types.Message):
     orders_arr = admin_get_orders()
-    orders_list_str = "\n".join(orders_arr)
+    orders_list_str = "\n\n".join(orders_arr)
     await message.answer(orders_list_str)
+
+
+@dp.message_handler(commands=['watchuserslist'])
+async def cmd_watch_users_list(message: types.Message):
+    user_number = 1
+    markup = types.InlineKeyboardMarkup().add(
+        types.InlineKeyboardButton("Назад", callback_data=f"previous_user:0"),
+        types.InlineKeyboardButton("Вперёд", callback_data=f"next_user:1")
+    )
+    markup.row(types.InlineKeyboardButton("Начислить", callback_data=f"add"))
+    markup.row(types.InlineKeyboardButton("Убавить", callback_data=f"remove"))
+    inff = admin_get_user_info(user_number)
+    user_nickname, user_avatar, user_intcoins = inff[2], inff[3], inff[4]
+    user_caption = f"Ник: {user_nickname}\nБаланс: {user_intcoins}"
+    user_avatar_filesystem_path = PHOTO_SERVER_PATH + user_avatar
+    await message.answer_photo(photo=InputFile(user_avatar_filesystem_path), caption=user_caption, reply_markup=markup, parse_mode="Markdown")
 
 
 @dp.message_handler(commands=['sendallready'])
@@ -314,13 +331,56 @@ async def cmd_send_all(message: types.Message):
     admin_id = config.admin_user_id
     if message.chat.id == admin_id:
         await message.answer("Рассылка запущена")
-        # цикл в котором будет отсылаться информация, кому ушел текст
         users = []
         for i in users:
             await bot.send_message(chat_id=i, text="Текст рассылки")
+        orders = admin_get_orders()
+        for order in orders:
+            if 'Статус: Готово' in order:
+                goods = order.split(',')[3].split(':')[1].strip()
+                user_id = order.split(',')[1].split(':')[1].strip()
+                order_id = order.split(',')[0].split(':')[1].strip()
+                text = f"Ваш заказ {order_id}: {goods} готов к выдаче, пожалуйста, поднимитесь в кабинет."
+                await bot.send_message(chat_id=user_id, text=text)
+
         await message.answer('Рассылка окончена')
     else:
         await message.answer('Ошибка авторизации')
+
+
+@dp.callback_query_handler(text_startswith="previous_user")
+async def hdr_previous_user(call: types.CallbackQuery):
+    user_number = int(call.data.split(":")[1]) - 1
+    if user_number < 1:
+        last_user_number = admin_get_users_count()
+        await show_current_user(call.message, call.from_user['id'], call.id, last_user_number)
+    else:
+        await show_current_user(call.message, call.from_user['id'], call.id, user_number)
+
+
+@dp.callback_query_handler(text_startswith="next_user")
+async def hdr_next_user(call: types.CallbackQuery):
+    user_number = int(call.data.split(":")[1]) + 1
+    await show_current_user(call.message, call.from_user['id'], call.id, user_number)
+
+
+async def show_current_user(message, user_id, call_id, user_number):
+    users_count = admin_get_users_count()
+    markup = types.InlineKeyboardMarkup().add(
+        types.InlineKeyboardButton("Назад", callback_data=f"previous_user:{user_number}"),
+        types.InlineKeyboardButton("Вперёд", callback_data=f"next_user:{user_number}")
+    )
+    markup.row(types.InlineKeyboardButton("Начислить", callback_data=f"add"))
+    markup.row(types.InlineKeyboardButton("Убавить", callback_data=f"remove"))
+    if not user_number > users_count:
+        inff = admin_get_user_info(user_number)
+        user_nickname, user_avatar, user_intcoins = inff[2], inff[3], inff[4]
+        user_avatar_filesystem_path = PHOTO_SERVER_PATH + user_avatar
+        user_caption = f"Ник: {user_nickname}\nБаланс: {user_intcoins}"
+        user_avatar_file_input_media = InputMediaPhoto(media=InputFile(user_avatar_filesystem_path), caption=user_caption, parse_mode="Markdown")
+        await message.edit_media(user_avatar_file_input_media, reply_markup=markup)
+    else:
+        await show_current_user(message, user_id, call_id, user_number=1)
 
 
 if __name__ == '__main__':
