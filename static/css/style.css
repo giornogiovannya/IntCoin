@@ -23,6 +23,10 @@ body{
 	align-items: center;
 }
 
+.shop {
+
+}
+
 .avatar{
 	width: 44px;
 	height: 44px;
@@ -139,8 +143,6 @@ wrapper:before {
 	display: inline-block;
 	margin-left: 20px;
 	user-select: none;
-
-	background: tomato;
 	width: 50%;
 	height: 130px;
 	color: #222;
@@ -165,10 +167,12 @@ wrapper:before {
 }
 
 .modal{
-	background: #fff;
+	background: #333232;
+	color: white;
 	height: 70%;
 	width: 25%;
-	padding: 10px;
+	padding: 0px;
+	overflow: hidden;
 	border: 0;
 	border-radius: 18px;
 	position: relative;
@@ -251,7 +255,7 @@ wrapper:before {
 	}
 
 	.item {
-		width: 20%;
+		width: 35%;
 	}
 }
 

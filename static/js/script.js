@@ -27,17 +27,26 @@ let scrollLeft;
 let table;
 let filter;
 
+
+document.querySelector("#shop_button").addEventListener("click", () => {
+  document.location.href = "https://samakonalocal.ru/?activate=shop"
+})
+
+document.querySelector("#task_button").addEventListener("click", () => {
+  document.location.href = "https://samakonalocal.ru/?activate=tasks"
+})
+
 if (document.location.search === "" || document.location.search === "?activate=shop") {
   table = "goods";
   filter = "goods_category";
-  document.querySelector(".shop").classList.add("activate")
-  document.querySelector(".tasks").classList.remove("activate")
+  document.querySelector("#shop_button").classList.add("activate")
+  document.querySelector("#task_button").classList.remove("activate")
 }
 else if (document.location.search === "?activate=tasks") {
   table = "tasks";
   filter = "task_category"
-  document.querySelector(".shop").classList.remove("activate")
-  document.querySelector(".tasks").classList.add("activate")
+  document.querySelector("#shop_button").classList.remove("activate")
+  document.querySelector("#task_button").classList.add("activate")
 }
 
 for (let item of items){
@@ -46,12 +55,7 @@ for (let item of items){
 	  isDown = false;
     item.classList.remove('active');
   }
-  
-  document.querySelector(".search").addEventListener("input", async (e) => {
-    const value = e.target.value;
-    const res = (await axios.get(`${host}/${table}?filter=${filter}&value=${category}&search=${value}`)).data;
-    outList(res);
-  });
+
 
   const outList = (data, item) => {
     if (data.length === 0) return
@@ -81,10 +85,24 @@ for (let item of items){
           id = dataItem.goods_id
           cost = dataItem.goods_cost
         }
+        // Генерация карточек из бэка
         html += `<li class="item" onclick="openModal('${table}', '${hash}')" data_id="${hash}">
-                         <span>${title}</span>
-                         <span>${description}</span>
-                         <span>${cost}</span>
+
+<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="#">
+        <img class="p-8 rounded-t-lg" src="/home/aboba/intcoin/web/IntCoin/static/uploads/${hash}.jpg" alt="product image" />
+    </a>
+    <div class="px-5 pb-5">
+        <a href="#">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">${title}</h5>
+        </a>
+
+        <div class="flex items-center justify-between">
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">${cost}</span>
+        </div>
+    </div>
+</div>
+<br>
                        </li>`;
       }
       item.innerHTML = html
@@ -189,9 +207,10 @@ const openModal = async (table, id) => {
     document.querySelector(".buy").classList.remove("invisible")
     document.querySelector(".start").classList.add("invisible")
     document.querySelector(".title").innerHTML = title
+    document.querySelector(".cardimg").src = "/home/aboba/intcoin/web/IntCoin/static/uploads/" + hash + ".jpg"
     document.querySelector(".description").innerHTML = description
     document.querySelector(".cost").innerHTML = cost
-    
+
     for (size in sizes){
       const li = document.createElement("li")
       const btn = document.createElement("button");

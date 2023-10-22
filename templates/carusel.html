@@ -5,19 +5,20 @@
 
 {% if activate == 'shop' or activate == None %}
   {% for category in goods_categories %}
-        <h2>{{ category }}</h2>
+
+<h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+    {% if category == 'merch' %}
+                Мерч
+            {% elif category == 'personal_bonus' %}
+                Личные бонусы
+            {% elif category == 'travel' %}
+                Путёвки
+            {% endif %}
+</span></h1>
         <div class="wrapper">
           <ul class="items {{ category }}">
-
           </ul>
         </div>
-{#        <ul>#}
-{#            {% for entry in entries %}#}
-{#                {% if entry.category == category %}#}
-{#                    <li>{{ entry.name }}</li>#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{#        </ul>#}
     {% endfor %}
   {% elif activate == 'tasks' %}
     {% for category in task_categories %}
@@ -27,13 +28,6 @@
 
           </ul>
         </div>
-{#        <ul>#}
-{#            {% for entry in entries %}#}
-{#                {% if entry.category == category %}#}
-{#                    <li>{{ entry.name }}</li>#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{#        </ul>#}
     {% endfor %}
 {% endif %}
 
