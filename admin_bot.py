@@ -306,7 +306,8 @@ async def cmd_help(message: types.Message):
 async def cmd_send_all(message: types.Message):
     admin_id = config.admin_user_id
     if message.chat.id == admin_id:
-        await message.answer("Старт")
+        await message.answer("Рассылка запущена")
+        # цикл в котором будет отсылаться информация, кому ушел текст
         users = []
         for i in users:
             await bot.send_message(chat_id=i, text="Текст рассылки")

@@ -60,3 +60,19 @@ def admin_addnew_unique_goods(conn, goods_info, total_count):
         addnew_goods_to_unique_db(conn, goods_info[0], total_count)
     else:
         addnew_goods_to_unique_db(conn, goods_info, total_count)
+
+
+@connection
+def admin_get_orders(conn):
+    curs = conn.cursor()
+    curs.execute('''
+        SELECT orders.id, unique_goods.goods_title, unique_goods.goods_category, orders.size, orders.cost, orders.status
+        FROM orders
+        INNER JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
+    ''')
+    for row in curs.fetchall():
+        order_id, goods_name, goods_category, size, cost, status = row
+        status_text = "в процессе" if status == 1 else ("готово" if status == 2 else "")
+        size_text = f", Размер: {size}" if size else ""
+        print(
+            f"id: {order_id}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}")
