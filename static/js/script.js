@@ -206,10 +206,10 @@ const openModal = async (table, id) => {
     document.querySelector(".window").style.display = "flex";
     document.querySelector(".buy").classList.remove("invisible")
     document.querySelector(".start").classList.add("invisible")
-    document.querySelector(".title").innerHTML += title
+    document.querySelector(".title").innerHTML = title
     document.querySelector(".cardimg").src = "static/uploads/" + hash + ".jpg"
-    document.querySelector(".description").innerHTML += description
-    document.querySelector(".cost").innerHTML += cost
+    document.querySelector(".description").innerHTML = description
+    document.querySelector(".cost").innerHTML = cost
 
     for (size in sizes){
       const li = document.createElement("li")
