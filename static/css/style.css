@@ -217,7 +217,16 @@ wrapper:before {
 	display: none;
 }
 
+@media screen and (min-width: 200px) {
+	.modal{
+		width: 75%;
+	}
+}
+
 @media screen and (min-width: 500px) {
+	.modal{
+		width: 65%;
+	}
 
 	.item {
 		width: 33%;
@@ -225,19 +234,29 @@ wrapper:before {
 }
 
 @media screen and (min-width: 800px) {
-
+	.modal{
+		width: 45%;
+	}
 	.item {
 		width: 25%;
 	}
 }
 
-@media screen and (min-width: 1200px) {
-
+@media screen and (min-width: 1000px) {
+.modal{
+		width: 35%;
+	}
 	.wrapper {
 		margin-left: -20px;
 	}
 
 	.item {
 		width: 20%;
+	}
+}
+
+@media screen and (min-width: 1300px) {
+	.modal{
+		width: 35%;
 	}
 }

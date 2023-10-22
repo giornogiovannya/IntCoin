@@ -8,7 +8,6 @@ let cost = 0;
 let hash = "";
 let size = ""
 let balance = 0;
-let costGoods = 0;
 
 const getUser = async () => {
   const user = (await axios.get(`${host}/users?user_id=${user_id}`)).data;
@@ -25,9 +24,9 @@ const items = document.querySelectorAll('.items');
 let isDown = false;
 let startX;
 let scrollLeft;
-let shopActive = true;
 let table;
 let filter;
+
 if (document.location.search === "" || document.location.search === "?activate=shop") {
   table = "goods";
   filter = "goods_category"
@@ -241,7 +240,6 @@ const openModal = async (table, id) => {
       modal.style.display = "none"
       confimation.style.display = "block"
       confimation.style.opacity = 1;
-      costGoods = cost;
       document.querySelector(".body .info").innerText = `Вы уверены что хотите купить ${title} за ${cost}?`
     })
   }
@@ -290,35 +288,3 @@ const openModal = async (table, id) => {
     })
   }
 }
-
-document.querySelector(".close").addEventListener("click", () => {
-  document.querySelector(".window").style.display = "none";
-})
-
-document.querySelector(".window").addEventListener("click", (e) => {
-  if (e.target === document.querySelector(".window")){
-    document.querySelector(".window").style.display = "none";
-  }
-})
-
-document.querySelector(".cancel").addEventListener("click", () => {
-  modal.style.display = "block";
-  confimation.style.display = "none";
-})
-
-document.querySelector(".access").addEventListener("click", async () => {
-  modalWindow.style.display = "none";
-  modal.style.display = "block";
-  confimation.style.display = "none";
-  
-  const body = {
-    user_id,
-    goods_hash: hash,
-    cost,
-    size
-  }
-  
-  await axios.post(`${host}/buy`, body)
-  await getUser()
-})
-
