@@ -7,9 +7,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js" integrity="sha512-emSwuKiMyYedRwflbZB2ghzX8Cw8fmNVgZ6yQNNXXagFzFOaQmbvQ1vmDkddHjm5AITcBIZfC7k4ShQSjgPAmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-      var host = "{{host}}";
+      const host = "{{host}}";
       const WebApp = window.Telegram.WebApp;
-      const user_id = WebApp.initDataUnsafe.user.id;
+      const user_id = 111 //WebApp.initDataUnsafe.user.id;
     </script>
     <title>IntCoin</title>
   </head>
@@ -21,17 +21,16 @@
     <div class="user">
       <img src="" alt="" class="avatar">
       <span class="coins"></span>
-      <img src="" alt="">
+      {% include "intcoin.html" %}
     </div>
     <div class="searchBlock">
       <input type="text" placeholder="Поиск по имени" class="search" />
     </div>
 
-      {% include 'carusel.html' %}
-      {% include 'modal.html' %}
+    {% include 'carusel.html' %}
+    {% include 'modal.html' %}
+
 
     <script src="static/js/script.js"></script>
-    <script src="static/js/listeners.js"></script>
-    <script src="static/js/tg.js"></script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 import sqlite3, config
+from datetime import datetime
 
 def connection(func):
     def wrapper(*args, **kwargs):
@@ -86,7 +87,6 @@ def update_tasks(conn, updates, filters):
             query += f" {filter}='{filters[filter]}' and"
 
     query = query.rsplit(' ', 1)[0]
-    print(query)
 
     res = conn.execute(query)
     return res.fetchall()
@@ -137,7 +137,6 @@ def addGoods(conn, goods):
                 goods_cost 
                 ) values ("""
     for g in goods:
-        print(g, goods[g])
         if (type(goods[g]) == int):
             query += f"{goods[g]},"
         else:
@@ -165,7 +164,6 @@ def updateGoods(conn, updates, filters):
             query += f" {filter}='{filters[filter]}' and"
 
     query = query.rsplit(' ', 1)[0]
-    print(query)
 
     res = conn.execute(query)
     return res.fetchall()
@@ -176,9 +174,17 @@ def deleteGoods(conn, filters):
 
     for filter in filters:
         f = filter.split("=")
-        print(f)
         query += f"{f[0]}='{f[1]}',"
 
     query = query[:-1]
     res = conn.execute(query)
     return res.fetchall()
+
+@connection
+def add_order(conn, data):
+    conn.execute("SELECT * FROM goods WHERE goods_hash = ? AND goods_merch_size = ?", (data['goods_hash'], data["size"],))
+    conn.execute(f"UPDATE goods SET goods_count = goods_count - 1 WHERE goods_hash = ? AND goods_merch_size = ?", (data['goods_hash'], data["size"],) )
+    current_datetime = datetime.now()
+    conn.execute("UPDATE users SET intcoins = intcoins - ? WHERE user_id = ?", (data['cost'], data['user_id'],))
+    res = conn.execute("INSERT INTO orders (user_id, goods_id, size, cost, date, status) VALUES (?, ?, ?, ?, ?, ?)", (data['user_id'],data['goods_hash'],data['size'],data['cost'],current_datetime,1,))
+    return res

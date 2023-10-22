@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+
 import db, config
 
 host = config.host
@@ -23,7 +24,6 @@ def web_get_users():
 @app.post("/users")
 def web_add_users():
     user = request.get_json()
-    print(user)
     return db.add_user(user)
 @app.get("/tasks")
 def web_get_tasks():
@@ -41,8 +41,6 @@ def web_get_tasks():
         tasks_list = db.select_all_tasks()
 
     tasks_json = []
-
-    print(tasks_list)
 
     for task in tasks_list:
         t = {}
@@ -87,21 +85,15 @@ def goods():
     search = request.args.get('search')
 
     if (search != None):
-        print(123)
         goodsList = db.selectSearch(filter, value, search)
     elif (filter != None and value != None):
-        print(456)
         goodsList = db.selectWithFilter(filter, value)
     else:
-        print(789)
         goodsList = db.selectAll()
 
     goodsJson = []
 
-    print(goodList)
-
     for good in goodsList:
-        print(good)
         g = {}
         g["goods_id"] = good[0]
         g["goods_hash"] = good[1]
@@ -133,6 +125,12 @@ def updateGoods():
 def deleteGoods():
     filters = str(request.query_string, 'UTF-8').split("&")
     return db.deleteGoods(filters)
+
+@app.post("/buy")
+def buy():
+    data = request.get_json()
+    res = db.add_order(data)
+    return jsonify(success=True)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
