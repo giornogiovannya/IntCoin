@@ -383,7 +383,7 @@ async def show_current_user(message, user_id, call_id, user_number):
         types.InlineKeyboardButton("Назад", callback_data=f"previous_user:{user_number}"),
         types.InlineKeyboardButton("Вперёд", callback_data=f"next_user:{user_number}")
     )
-    markup.row(types.InlineKeyboardButton("Начислить", callback_data=f"add:{user_number}"))
+    markup.row(types.InlineKeyboardButton("Начислить (+500)", callback_data=f"add:{user_number}"))
     markup.row(types.InlineKeyboardButton("Убавить", callback_data=f"remove:{user_number}"))
     if not user_number > users_count:
         inff = admin_get_user_info(user_number)
