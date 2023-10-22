@@ -98,9 +98,9 @@ def admin_get_user_info(conn, user_number):
 
 @connection
 def admin_coins_add(conn, user_number, coins_count):
-    conn.execute("UPDATE users SET intcoins = intcoins + ? FROM users WHERE user_id = ?", (coins_count, user_number,))
+    conn.execute("UPDATE users SET intcoins = intcoins + ? WHERE user_id = ?", (coins_count, user_number,))
 
 @connection
 def admin_coins_remove(conn, user_number, coins_count):
-    conn.execute("UPDATE users SET intcoins = intcoins - ? FROM users WHERE user_id = ?",
+    conn.execute("UPDATE users SET intcoins = intcoins - ? WHERE user_id = ?",
                  (coins_count, user_number,))
