@@ -14,7 +14,7 @@ from aiogram_dialog.widgets.kbd import Button, Cancel, SwitchTo, Row
 from aiogram_dialog.widgets.text import Const
 from aiogram_dialog.widgets.input import MessageInput
 from aiogram_dialog import Window, Dialog, DialogRegistry, DialogManager, StartMode, ShowMode
-from db import admin_addnew_goods, admin_addnew_unique_goods
+from db import admin_addnew_goods, admin_addnew_unique_goods, admin_get_orders
 
 bot = Bot(token=admin_bot_token)
 storage = MemoryStorage()
@@ -300,6 +300,12 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(commands=["help"])
 async def cmd_help(message: types.Message):
     await message.answer("/getrewards - Получить список наград\n/addnewreward - Добавить новую награду\n/gettasks - Получить список заданий\n/addnewtask - Добавить новое задание\n/watchuserslist - Получить список сотрудников и выдать баллы\n/getorders - Получить список заказов сотрудников\n/sendallready - Разослать оповещение всем сотрудникам, чей статус заказа: \"Готово к выдаче\"")
+
+
+@dp.message_handler(commands=['getorders'])
+async def cmd_get_orders(message: types.Message):
+    orders_arr = admin_get_orders()
+    print(orders_arr)
 
 
 @dp.message_handler(commands=['sendallready'])

@@ -70,9 +70,12 @@ def admin_get_orders(conn):
         FROM orders
         INNER JOIN unique_goods ON orders.goods_id = unique_goods.goods_hash
     ''')
+    formatted_orders = []
     for row in curs.fetchall():
         order_id, goods_name, goods_category, size, cost, status = row
         status_text = "в процессе" if status == 1 else ("готово" if status == 2 else "")
         size_text = f", Размер: {size}" if size else ""
-        print(
-            f"id: {order_id}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}")
+        formatted_orders.append(
+            f"id: {order_id}, Товар: {goods_name}, Категория: {goods_category}{size_text}, Инткоинов потрачено: {cost}, Статус: {status_text}"
+        )
+    return formatted_orders
