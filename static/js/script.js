@@ -29,11 +29,15 @@ let filter;
 
 if (document.location.search === "" || document.location.search === "?activate=shop") {
   table = "goods";
-  filter = "goods_category"
+  filter = "goods_category";
+  document.querySelector(".shop").classList.add("activate")
+  document.querySelector(".tasks").classList.remove("activate")
 }
 else if (document.location.search === "?activate=tasks") {
   table = "tasks";
   filter = "task_category"
+  document.querySelector(".shop").classList.remove("activate")
+  document.querySelector(".tasks").classList.add("activate")
 }
 
 for (let item of items){
