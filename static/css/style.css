@@ -1,46 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-*{
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-    -webkit-tap-highlight-color: transparent; /* Для Safari */
-    -webkit-touch-callout: none; /* Для Safari */
-    -webkit-user-select: none; /* Для Chrome, Safari, Opera */
-    -khtml-user-select: none; /* Для Konqueror */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для Internet Explorer и Edge */
-    user-select: none; /* Общее свойство */
+  font-family: "Poppins", sans-serif;
+  -webkit-tap-highlight-color: transparent; /* Для Safari */
+  -webkit-touch-callout: none; /* Для Safari */
+  -webkit-user-select: none; /* Для Chrome, Safari, Opera */
+  -khtml-user-select: none; /* Для Konqueror */
+  -moz-user-select: none; /* Для Firefox */
+  -ms-user-select: none; /* Для Internet Explorer и Edge */
+  user-select: none; /* Общее свойство */
 }
 
-body{
+.imgs {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+body {
   max-width: 800px;
   margin: 0 auto;
 }
 
 .user {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .shop {
-
 }
 
-.avatar{
-	width: 44px;
-	height: 44px;
-	border-radius: 100%;
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 100%;
 }
 
-.menu{
+.menu {
   display: flex;
   justify-content: center;
 }
 
-.menu .btn{
+.menu .btn {
   width: 200px;
-	cursor: pointer;
+  cursor: pointer;
 }
 
 input,
@@ -48,219 +53,219 @@ button {
   outline: none;
 }
 
-.btn.activate{
+.btn.activate {
   background: #35c300;
   color: #fff;
 }
 
-.filters, .searchBlock{
+.filters,
+.searchBlock {
   margin-top: 15px;
   display: flex;
   justify-content: center;
 }
 
-.btn{
+.btn {
   border: 0;
   border-radius: 8px;
   color: #fff;
   background: #000;
   padding: 5px 10px;
   font-size: 16px;
-	cursor: pointer;
+  cursor: pointer;
 }
 
-.close{
-	background: #fff;
-	color: #000;
-	cursor: pointer;
+.close {
+  background: #fff;
+  color: #000;
+  cursor: pointer;
 }
 
-.search{
+.search {
   width: 50%;
   height: 35px;
   font-size: 18px;
   border-radius: 8px;
   padding: 0 10px;
-
 }
 
-.disabled{
-	background: rgba(0,0,0,0.7);
+.disabled {
+  background: rgba(0, 0, 0, 0.7);
 }
 
-.count{
-	display: none;
+.count {
+  display: none;
 }
 
 ul {
-	padding: 0;
+  padding: 0;
 }
 
 li {
-	list-style: none;
+  list-style: none;
 }
 
 .wrapper {
-	position: relative;
+  position: relative;
 }
 
 wrapper:before,
-	wrapper:after {
-		position: absolute;
-		top: 0;
-		z-index: 1;
+wrapper:after {
+  position: absolute;
+  top: 0;
+  z-index: 1;
 
-		content: "";
-		display: block;
-		width: 20px;
-		height: 100%;
-	}
+  content: "";
+  display: block;
+  width: 20px;
+  height: 100%;
+}
 
 wrapper:before {
-		left: 0;
-		background: linear-gradient(90deg, #222, transparent);
-	}
+  left: 0;
+  background: linear-gradient(90deg, #222, transparent);
+}
 
 .wrapper:after {
-		right: 0;
-		background: linear-gradient(-90deg, #222, transparent);
-	}
+  right: 0;
+  background: linear-gradient(-90deg, #222, transparent);
+}
 
 .items {
-	position: relative;
-	width: 100%;
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 0;
-	cursor: pointer;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0;
+  cursor: pointer;
 }
 
 .items .active {
-		cursor: grab;
-	}
+  cursor: grab;
+}
 
 .item {
-	display: inline-block;
-	margin-left: 20px;
-	user-select: none;
-	width: 50%;
-	height: 130px;
-	color: #222;
-	font-size: 16px;
-	white-space: wrap;
+  display: inline-block;
+  margin-left: 20px;
+  user-select: none;
+  width: 50%;
+  height: 130px;
+  color: #222;
+  font-size: 16px;
+  white-space: wrap;
 }
 
 .item:last-child {
-	margin-right: 20px;
+  margin-right: 20px;
 }
 
-.window{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.7);
-	display: none;
-  	align-items: center;
-	justify-content: center;
+.window {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal{
-	background: #333232;
-	color: white;
-	height: 80%;
-	width: 25%;
-	padding: 0px;
-	position: fixed;
-	overflow: hidden;
-	border: 0;
-	border-radius: 18px;
+.modal {
+  background: #333232;
+  color: white;
+  height: 80%;
+  width: 25%;
+  padding: 0px;
+  position: fixed;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
 }
 
-.modal .header{
-	text-align: right;
+.modal .header {
+  text-align: right;
 }
 
-.modal .footer{
-	position: absolute;
-	bottom: 10px;
-	left: 10px;
-	right: 10px;
+.modal .footer {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
 }
 
-.modal .footer .btn{
-	width: 100%;
-	padding: 10px;
+.modal .footer .btn {
+  width: 100%;
+  padding: 10px;
 }
 
-.body ul{
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	display: flex;
+.body ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
 }
 
 .body ul li .btn {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
-.confirmation{
-	position: absolute;
-	top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-	display: none;
-	background: #fff;
-	padding: 20px;
-	opacity: 0;
+.confirmation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  background: #fff;
+  padding: 20px;
+  opacity: 0;
 }
 
-.invisible{
-	display: none;
+.invisible {
+  display: none;
 }
 
 @media screen and (min-width: 200px) {
-	.modal{
-		width: 75%;
-	}
+  .modal {
+    width: 75%;
+  }
 }
 
 @media screen and (min-width: 500px) {
-	.modal{
-		width: 65%;
-	}
+  .modal {
+    width: 65%;
+  }
 
-	.item {
-		width: 33%;
-	}
+  .item {
+    width: 33%;
+  }
 }
 
 @media screen and (min-width: 800px) {
-	.modal{
-		width: 45%;
-	}
-	.item {
-		width: 25%;
-	}
+  .modal {
+    width: 45%;
+  }
+  .item {
+    width: 25%;
+  }
 }
 
 @media screen and (min-width: 1000px) {
-.modal{
-		width: 35%;
-	}
-	.wrapper {
-		margin-left: -20px;
-	}
+  .modal {
+    width: 35%;
+  }
+  .wrapper {
+    margin-left: -20px;
+  }
 
-	.item {
-		width: 35%;
-	}
+  .item {
+    width: 35%;
+  }
 }
 
 @media screen and (min-width: 1300px) {
-	.modal{
-		width: 35%;
-	}
+  .modal {
+    width: 35%;
+  }
 }
