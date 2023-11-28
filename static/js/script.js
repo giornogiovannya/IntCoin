@@ -87,7 +87,7 @@ for (let item of items) {
         html += `<li class="item" onclick="openModal('${table}', '${hash}')" data_id="${hash}">
 
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
+    <a href="#" class="center">
         <img class="p-5 rounded-t-lg imgs" src="static/uploads/${hash}.jpg" alt="product image" />
     </a>
     <div class="px-5 pb-5">
@@ -113,7 +113,7 @@ for (let item of items) {
         <img class="p-5 rounded-t-lg imgs" src="static/uploads/${hash}.jpg" alt="product image" />
     </a>
     <div class="px-5 pb-5">
-        <a href="#">
+        <a href="#" class="center">
             <h5 class="font-semibold tracking-tight text-gray-900 dark:text-white">${dataItem.task_title}</h5>
         </a>
 

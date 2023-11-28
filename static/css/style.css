@@ -13,6 +13,11 @@
   user-select: none; /* Общее свойство */
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 .imgs {
   width: 213px;
   height: 248px;
