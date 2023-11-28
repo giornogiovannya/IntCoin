@@ -238,6 +238,7 @@ wrapper:before {
   }
 
   .item {
+    font-size: 14px;
     width: 33%;
   }
 }
@@ -247,6 +248,7 @@ wrapper:before {
     width: 45%;
   }
   .item {
+    font-size: 14px;
     width: 25%;
   }
 }
