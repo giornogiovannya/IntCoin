@@ -92,11 +92,11 @@ for (let item of items) {
     </a>
     <div class="px-5 pb-5">
         <a href="#">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">${title}</h5>
+            <h5 class="font-semibold tracking-tight text-gray-900 dark:text-white">${title}</h5>
         </a>
 
         <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">- ${cost}</span>
+            <span class="font-bold text-gray-900 dark:text-white">- ${cost}</span>
         </div>
     </div>
 </div>
