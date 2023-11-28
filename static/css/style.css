@@ -14,8 +14,8 @@
 }
 
 .imgs {
-  width: 187px;
-  height: 200px;
+  width: 213px;
+  height: 248px;
   object-fit: cover;
 }
 
@@ -239,7 +239,7 @@ wrapper:before {
 
   .item {
     font-size: 14px;
-    width: 41%;
+    width: 50%;
   }
 }
 
