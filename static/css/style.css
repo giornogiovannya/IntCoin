@@ -230,16 +230,16 @@ wrapper:before {
   .modal {
     width: 75%;
   }
+
+  .item {
+    font-size: 14px;
+    width: 50%;
+  }
 }
 
 @media screen and (min-width: 500px) {
   .modal {
     width: 65%;
-  }
-
-  .item {
-    font-size: 14px;
-    width: 50%;
   }
 }
 
