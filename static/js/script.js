@@ -84,7 +84,7 @@ for (let item of items) {
           cost = dataItem.goods_cost;
         }
         // Генерация карточек из бэка
-        html += `<li onclick="openModal('${table}', '${hash}')" data_id="${hash}">
+        html += `<li class="item" onclick="openModal('${table}', '${hash}')" data_id="${hash}">
 
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
@@ -106,7 +106,7 @@ for (let item of items) {
       item.innerHTML = html;
     } else if (table === "tasks") {
       for (let dataItem of data) {
-        html += `<li onclick="openModal('${table}', '${dataItem.task_id}')" data_id="${dataItem.task_id}">
+        html += `<li class="item" onclick="openModal('${table}', '${dataItem.task_id}')" data_id="${dataItem.task_id}">
                       
 <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
